@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.45, for macos15 (arm64)
 --
--- Host: localhost    Database: toko_roti
+-- Host: 127.0.0.1    Database: toko_roti
 -- ------------------------------------------------------
--- Server version	8.0.42
+-- Server version	9.6.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,14 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
+SET @@SESSION.SQL_LOG_BIN= 0;
+
+--
+-- GTID state at the beginning of the backup 
+--
+
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '44044b24-37e6-11f1-bade-ea9c50bcc08d:1-297';
 
 --
 -- Table structure for table `admin`
@@ -52,14 +60,17 @@ DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comments` (
-  `comment_id` bigint NOT NULL AUTO_INCREMENT,
+  `comment_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
   `name` varchar(100) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `comment` text NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `comment` varchar(255) NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`comment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`comment_id`),
+  KEY `fk_comments_user` (`user_id`),
+  CONSTRAINT `fk_comments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +79,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (6,'Muhadist Asshidiq','muhadistasshidiq845@gmail.com','mantap3','2026-06-25 00:00:00','2026-06-30 17:02:00');
+INSERT INTO `comments` VALUES (1,1,'Doni Saputra','doni1971@gmail.com','mantap3','2026-06-30 17:26:32','2026-06-30 17:26:32'),(2,1,'Doni Saputra','doni1971@gmail.com','enak kali','2026-06-30 17:32:18','2026-06-30 17:32:18');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,6 +279,7 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,'Doni Saputra','doniii','doni1971@gmail.com','1234567','2026-06-30 08:47:35','2026-06-30 08:47:35');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -278,4 +290,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-30 17:10:32
+-- Dump completed on 2026-06-30 17:35:12
