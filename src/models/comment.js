@@ -6,6 +6,11 @@ const Comment = sequelize.define(
   {
     comment_id: {
       primaryKey: true,
+      autoIncrement: true,
+      type: DataTypes.INTEGER,
+    },
+    user_id: {
+      allowNull: false,
       type: DataTypes.INTEGER,
     },
     name: {
@@ -18,7 +23,7 @@ const Comment = sequelize.define(
     },
     comment: {
       allowNull: false,
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING, 
     },
     created_at: {
       type: DataTypes.DATE,

@@ -1,20 +1,31 @@
-import connection from "../config/db.js";
+import Order from "../models/order.js";
+import OrderDetail from "../models/orderDetail.js";
+import Product from "../models/product.js"; 
 
 
-const execute = (sql, params = []) => connection.execute(sql, params);
+// Order.hasMany(OrderDetail, { foreignKey: "order_id" });
+// OrderDetail.belongsTo(Order, { foreignKey: "order_id" });
+// OrderDetail.belongsTo(Product, { foreignKey: "product_id" });
 
 const getAllHistory = async (req, res) => {
   try {
-    // 1. Ambil semua order, terbaru duluan
-    const [orders] = await execute(`
-      SELECT
-        order_id,
-        customer_name,
-        order_date,
-        total_amount
-      FROM orders
-      ORDER BY order_date DESC
-    `);
+    // Ambil semua order + detail item + info product, terbaru duluan
+    const orders = await Order.findAll({
+      attributes: ["order_id", "customer_name", "order_date", "total_amount"],
+      order: [["order_date", "DESC"]],
+      include: [
+        {
+          model: OrderDetail,
+          attributes: ["quantity", "price", "subtotal"],
+          include: [
+            {
+              model: Product,
+              attributes: [["name", "product_name"], "img_url"],
+            },
+          ],
+        },
+      ],
+    });
 
     if (!orders.length) {
       return res.status(200).json({
@@ -24,44 +35,19 @@ const getAllHistory = async (req, res) => {
       });
     }
 
-    const orderIds  = orders.map((o) => o.order_id);
-    const placeholders = orderIds.map(() => "?").join(", ");
-
-    const [details] = await execute(
-      `
-      SELECT
-        od.order_id,
-        od.quantity,
-        od.price,
-        od.subtotal,
-        p.name    AS product_name,
-        p.img_url
-      FROM order_details od
-      JOIN products p ON p.id = od.product_id
-      WHERE od.order_id IN (${placeholders})
-      ORDER BY od.order_id, od.detail_id
-      `,
-      orderIds
-    );
-
-    const detailMap = {};
-    for (const d of details) {
-      if (!detailMap[d.order_id]) detailMap[d.order_id] = [];
-      detailMap[d.order_id].push({
-        product_name: d.product_name,
-        img_url:      d.img_url,
-        quantity:     d.quantity,
-        price:        d.price,
-        subtotal:     d.subtotal,
-      });
-    }
-
+    // Rapikan struktur data sebelum dikirim ke client
     const data = orders.map((o) => ({
-      order_id:      o.order_id,
+      order_id: o.order_id,
       customer_name: o.customer_name,
-      order_date:    o.order_date,
-      total_amount:  o.total_amount,
-      items:         detailMap[o.order_id] || [],
+      order_date: o.order_date,
+      total_amount: o.total_amount,
+      items: o.order_details.map((d) => ({
+        product_name: d.product.product_name,
+        img_url: d.product.img_url,
+        quantity: d.quantity,
+        price: d.price,
+        subtotal: d.subtotal,
+      })),
     }));
 
     return res.status(200).json({
@@ -83,12 +69,22 @@ const getHistoryById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [[order]] = await execute(
-      `SELECT order_id, customer_name, order_date, total_amount
-       FROM orders
-       WHERE order_id = ?`,
-      [id]
-    );
+    // Ambil satu order + detail item + info product berdasarkan id
+    const order = await Order.findByPk(id, {
+      attributes: ["order_id", "customer_name", "order_date", "total_amount"],
+      include: [
+        {
+          model: OrderDetail,
+          attributes: ["quantity", "price", "subtotal"],
+          include: [
+            {
+              model: Product,
+              attributes: [["name", "product_name"], "img_url"],
+            },
+          ],
+        },
+      ],
+    });
 
     if (!order) {
       return res.status(404).json({
@@ -97,30 +93,23 @@ const getHistoryById = async (req, res) => {
       });
     }
 
-    const [items] = await execute(
-      `
-      SELECT
-        od.quantity,
-        od.price,
-        od.subtotal,
-        p.name    AS product_name,
-        p.img_url
-      FROM order_details od
-      JOIN products p ON p.id = od.product_id
-      WHERE od.order_id = ?
-      ORDER BY od.detail_id
-      `,
-      [id]
-    );
+    // Rapikan struktur item sebelum dikirim ke client
+    const items = order.order_details.map((d) => ({
+      quantity: d.quantity,
+      price: d.price,
+      subtotal: d.subtotal,
+      product_name: d.product.product_name,
+      img_url: d.product.img_url,
+    }));
 
     return res.status(200).json({
       success: true,
       message: "Berhasil mengambil detail pesanan",
       data: {
-        order_id:      order.order_id,
+        order_id: order.order_id,
         customer_name: order.customer_name,
-        order_date:    order.order_date,
-        total_amount:  order.total_amount,
+        order_date: order.order_date,
+        total_amount: order.total_amount,
         items,
       },
     });
@@ -134,4 +123,4 @@ const getHistoryById = async (req, res) => {
   }
 };
 
-export {getAllHistory, getHistoryById};
+export { getAllHistory, getHistoryById };

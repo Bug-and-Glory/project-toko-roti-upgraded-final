@@ -1,44 +1,34 @@
-import connection from "../config/db.js";
+import Comment from "../models/comment.js";
 
-export const createComments = async (req, res) => {
+// Dipanggil dari halaman contact us. User harus sudah login (lewat middleware auth),
+// jadi name & email diambil dari req.user, Bbukan dari input form.
+const createComment = async (req, res) => {
   try {
-    const { name, email, message } = req.body;
+    const { id: user_id, name, email } = req.user; // sesuaikan kalau fieldnya nntis beda
+    const { message } = req.body;
 
-    if (!name || !email || !message) {
+    if (!message) {
       return res.status(400).json({
         success: false,
-        message: "Data tidak lengkap"
+        message: "Komentar tidak boleh kosong",
       });
     }
 
-    // Insert ke database
-    const [result] = await connection.execute(
-      "INSERT INTO comments (name, email, comment) VALUES (?, ?, ?)",
-      [name, email, message]
-    );
+    const newComment = await Comment.create({
+      user_id,
+      name,
+      email,
+      comment: message,
+    });
 
-    // Response ke frontend
-    return res.status(201).json({
+    res.status(201).json({
       success: true,
-      message: "Pesan berhasil dikirim",
-      data: {
-        id: result.insertId,
-        name,
-        email,
-        message
-      }
+      message: "Comment berhasil dikirim",
+      data: newComment,
     });
-
-  } catch (error) {
-    console.error("ERROR CREATE COMMENT:", error);
-
-    return res.status(500).json({
-      success: false,
-      message: "Terjadi kesalahan pada server"
-    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
 };
 
-
-
-export default createComments;
+export { createComment };
