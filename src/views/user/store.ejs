@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Store — YumYum Bakery</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --navbar-bg:   #4E2609;
+      --footer-bg:   #4E2609;
+      --cart-btn:    #754C27;
+      --cream:       #f5f0e8;
+      --brown-dark:  #3b1f0e;
+      --brown-mid:   #5c2d0e;
+      --brown-light: #8b4513;
+      --gold-light:  #e8b84b;
+      --text-dark:   #2b1a0a;
+      --text-gray:   #666;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar { background: var(--navbar-bg) !important; padding: 10px 48px; box-shadow: 0 3px 16px rgba(0,0,0,0.3); }
+    .nav-logo-img { height: 50px; width: auto; object-fit: contain; }
+    .navbar-nav .nav-link { font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: #fff; transition: color 0.2s; }
+    .navbar-nav .nav-link:hover { color: var(--gold-light) !important; }
+    
+    .search-wrapper { position: relative; display: flex; align-items: center; }
+    #searchInput { width: 0; opacity: 0; padding: 0; border: none; outline: none; background: rgba(255,255,255,0.15); color: #fff; font-family: 'Poppins', sans-serif; font-size: 13px; border-radius: 8px; transition: all 0.35s ease; }
+    #searchInput::placeholder { color: rgba(255,255,255,0.6); }
+    #searchInput.open { width: 200px; opacity: 1; padding: 8px 14px; margin-right: 8px; }
+    .btn-search { background: rgba(255,255,255,0.42); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.35); width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .btn-search img { width: 20px; height: 20px; }
+
+    .btn-cart { background: var(--cart-btn); color: #fff; border: none; padding: 10px 22px; border-radius: 8px; font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .btn-cart img { width: 20px; height: 20px; filter: brightness(0) invert(1); }
+
+    .store-container { max-width: 1000px; margin: 50px auto 80px; padding: 0 24px; flex: 1; }
+    .store-header { text-align: center; margin-bottom: 50px; }
+    .store-header h1 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--text-dark); margin-bottom: 15px; }
+    .store-header p { font-size: 14px; color: var(--text-gray); line-height: 1.7; max-width: 750px; margin: 0 auto; }
+
+    #store-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      width: 100%;
+    }
+
+    .store-card {
+      width: 100%;
+      max-width: 750px; 
+      margin: 0 auto; 
+      background: #fff; 
+      border-radius: 16px; 
+      border: 1px solid #ebebeb; 
+      overflow: hidden; 
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex; 
+      flex-direction: column;
+    }
+
+    .store-card:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08); 
+    }
+    
+    .store-card-img { 
+      width: 100%; 
+      height: auto; 
+      display: block; 
+      border-bottom: 1px solid #ebebeb; 
+    }
+    
+    .store-card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .store-title { font-family: 'Poppins', sans-serif; font-size: 17px; font-weight: 700; text-transform: uppercase; color: var(--text-dark); margin-bottom: 8px; }
+    .store-address { font-size: 13px; color: var(--text-gray); line-height: 1.5; margin-bottom: 20px; flex: 1; }
+    
+    .store-info-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--text-dark); }
+    .store-info-icon { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; }
+    .store-info-icon svg { width: 16px; height: 16px; fill: var(--brown-dark); }
+
+    footer { background: var(--footer-bg); color: rgba(255,255,255,0.9); padding: 60px 48px 30px; font-family: 'Poppins', sans-serif; margin-top: auto; }
+    .footer-logo-main { width: 100%; max-width: 220px; border: 1.5px solid #dcb786; padding: 8px; margin-bottom: 30px; object-fit: contain; }
+    .footer-halal { width: 85px; height: 85px; object-fit: contain; }
+    footer h4 { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #fff; margin-bottom: 14px; }
+    footer ul { list-style: none; padding: 0; margin: 0; }
+    footer ul li { margin-bottom: 8px; }
+    footer ul li a { text-decoration: none; color: rgba(255,255,255,0.7); font-size: 13px; transition: color 0.2s; }
+    footer ul li a:hover { color: var(--gold-light); }
+    .contact-item { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.8); font-size: 13px; margin-bottom: 10px; }
+    .contact-item img { width: 20px; height: 20px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.85; }
+    .mt-sponsor { margin-top: 32px; }
+    .sponsor-logo-box { background: #fff; border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; justify-content: center; height: 40px; overflow: hidden; }
+    .sponsor-logo-box img { max-width: 100%; max-height: 20px; object-fit: contain; }
+    .mt-pengaduan { margin-top: 32px; }
+    .complaint-section p { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 0; }
+    .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.15); margin: 40px 0 16px; }
+    .footer-bottom { text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container-fluid px-0">
+    <a class="navbar-brand ms-0" href="/">
+      <img src="/assets/logo/logo_nama.png" alt="YumYum Bakery" class="nav-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+      <span style="display:none; color:white; font-weight:bold; font-family:'Playfair Display', serif;">YumYum Bakery</span>
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="/menu">MENU</a></li>
+        <li class="nav-item"><a class="nav-link" href="/store">STORE</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about_us">ABOUT US</a></li>
+        <li class="nav-item"><a class="nav-link" href="/history">HISTORY</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
+        <div class="search-wrapper">
+          <input type="text" id="searchInput" placeholder="Cari produk..." />
+          <button class="btn-search" id="btnSearch" onclick="document.getElementById('searchInput').classList.toggle('open')">
+            <img src="/assets/icon/icon search.png" alt="Search" onerror="this.outerHTML='🔍'">
+          </button>
+        </div>
+        <a href="/cart" class="btn-cart">
+          <img src="/assets/icon/keranjang.png" alt="Cart" onerror="this.outerHTML='🛒'"> CART
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container store-container">
+  <div class="store-header">
+    <h1>Our Store</h1>
+    <p>We strive to make your life much easier. Our ever-expanding stores are located all over Indonesia, where you can pamper yourself or spend quality time with loved ones in a luxurious environment with a pleasant ambiance.</p>
+  </div>
+
+  <div id="loader" class="text-center py-5">
+    <div class="spinner-border text-secondary" role="status"></div>
+    <p class="mt-3 text-muted">Memuat lokasi toko...</p>
+  </div>
+
+  <div id="store-grid" style="display: none;">
+    </div>
+</div>
+
+<footer>
+  <div class="row g-4 mb-4">
+    <div class="col-lg-3 col-md-4 col-sm-6">
+      <div class="d-flex flex-column align-items-start">
+        <img src="/assets/logo/logo_aja.png" alt="YumYum Bakery Logo" class="footer-logo-main"
+             onerror="this.src='https://via.placeholder.com/200x100?text=YumYum+Logo'"/>
+        <img src="/assets/icon/icon halal.png" alt="Halal" class="footer-halal"
+             onerror="this.src='https://via.placeholder.com/80?text=Halal'"/>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-4 col-sm-6">
+      <h4>YUMYUM BAKERY</h4>
+      <ul>
+        <li><a href="/about_us">About Us</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <div class="mt-sponsor">
+        <h4>SPONSOR</h4>
+        <div class="row g-2">
+          <div class="col-6"><div class="sponsor-logo-box"><img src="/assets/logo/anchor.png" alt="Anchor" onerror="this.src='https://via.placeholder.com/100x40?text=Anchor'"></div></div>
+          <div class="col-6"><div class="sponsor-logo-box"><img src="/assets/logo/indofood.png" alt="Indofood" onerror="this.src='https://via.placeholder.com/100x40?text=Indofood'"></div></div>
+          <div class="col-6"><div class="sponsor-logo-box"><img src="/assets/logo/gofood.png" alt="GoFood" onerror="this.src='https://via.placeholder.com/100x40?text=GoFood'"></div></div>
+          <div class="col-6"><div class="sponsor-logo-box"><img src="/assets/logo/tokped.png" alt="Tokopedia" onerror="this.src='https://via.placeholder.com/100x40?text=Tokopedia'"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-4 mt-md-0">
+      <h4>HELP CENTER</h4>
+      <ul>
+        <li><a href="/privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+
+    <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
+      <h4>CONTACT US</h4>
+      <div class="contact-item">
+        <img src="/assets/icon/tlp.png" alt="phone" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📞</span>'" /> 889070999
+      </div>
+      <div class="contact-item">
+        <img src="assets/icon/wa.png" alt="whatsapp" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📱</span>'" /> +62 887 1447 0009
+      </div>
+      <div class="contact-item">
+        <img src="/assets/icon/ig.png" alt="instagram" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📸</span>'" /> @YumYum_Bakery
+      </div>
+      <div class="mt-pengaduan">
+        <h4>LAYANAN PENGADUAN</h4>
+        <div class="complaint-section">
+          <p>PT Matahari Bulan Bintang Angkasa</p>
+          <p>Email : marketing@yumyum.com</p>
+          <p>0867 0000 1222 (WhatsApp)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="footer-divider"/>
+  <p class="footer-bottom">© 2024 YumYum Bakery. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const API_BASE = 'http://localhost:3000';
+
+  const fallbackStores = [
+    {
+      id: 1,
+      name: "YUMYUM BAKERY CABANG MEDAN",
+      address: "Jl. Angkasa Bintang Dilangit No.53. Talang angin, kec. Bintang Kecil, Kota Medan, Sumatera Utara 20756",
+      phone: "1500891",
+      hours: "08:00 - 22:00",
+      image_url: "/assets/gambar/store 1.png"
+    },
+    {
+      id: 2,
+      name: "YUMYUM BAKERY CABANG BANDUNG",
+      address: "Jl. Dilan No.53. Bukit Indah, kec. Hitam Putih, Kota Bandung, Jawa Barat 70981",
+      phone: "1500891",
+      hours: "08:00 - 22:00",
+      image_url: "/assets/gambar/store 2.png"
+    },
+    {
+      id: 3,
+      name: "YUMYUM BAKERY CABANG BATAM",
+      address: "Jl. Golden No.53, Bukit Indah, kec. Sungai Panas, Kota Batam, Kepulauan Riau 45708",
+      phone: "1500891",
+      hours: "08:00 - 22:00",
+      image_url: "/assets/gambar/store 3.png"
+    }
+  ];
+
+  async function fetchStores() {
+    try {
+      const response = await fetch(`${API_BASE}/stores`);
+      const json = await response.json();
+      
+      if (json.success && json.data) {
+        renderStores(json.data); 
+      } else {
+        throw new Error("Gagal mengambil data dari endpoint");
+      }
+    } catch (error) {
+      console.warn("Endpoint /stores belum tersedia. Menggunakan data fallback UI...", error);
+      renderStores(fallbackStores); 
+    }
+  }
+
+  function renderStores(stores) {
+    document.getElementById('loader').style.display = 'none';
+    const grid = document.getElementById('store-grid');
+    grid.style.display = 'grid';
+
+    const phoneIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>`;
+    const clockIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>`;
+
+    grid.innerHTML = stores.map(store => `
+      <div class="store-card">
+        <img src="${store.image_url}" alt="${store.name}" class="store-card-img" onerror="this.src='https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&h=400&fit=crop'" />
+        <div class="store-card-body">
+          <h3 class="store-title">${store.name}</h3>
+          <p class="store-address">${store.address}</p>
+          
+          <div class="store-info-row">
+            <span class="store-info-icon">${phoneIcon}</span>
+            <span>${store.phone}</span>
+          </div>
+          <div class="store-info-row">
+            <span class="store-info-icon">${clockIcon}</span>
+            <span>OPEN ${store.hours}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchStores(); 
+
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+      searchInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const keyword = this.value.trim();
+          if (keyword) window.location.href = `menu.html?search=${encodeURIComponent(keyword)}`;
+        }
+      });
+    }
+  });
+</script>
+</body>
+</html>
