@@ -6,21 +6,23 @@ const OrderDetail = sequelize.define(
   {
     detail_id: {
       primaryKey: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
+      autoIncrement: true,
     },
     order_id: {
       allowNull: false,
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
     },
-     product_id: {
+    product_id: {
       allowNull: false,
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
     },
     quantity: {
       allowNull: false,
       type: DataTypes.INTEGER,
     },
     price: {
+      allowNull: false,
       type: DataTypes.DECIMAL(10, 2),
     },
     subtotal: {
@@ -29,6 +31,7 @@ const OrderDetail = sequelize.define(
   },
   {
     tableName: "order_details",
+    timestamps: false,
   },
 );
 

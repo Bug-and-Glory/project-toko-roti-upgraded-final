@@ -1,25 +1,22 @@
 import sequelize from "../config/db.js";
 import { DataTypes } from "sequelize";
 
-const SubCategory = sequelize.define("sub_categories",{
+const Admin = sequelize.define("admin",{
     id:{
         primaryKey: true,
-        type: DataTypes.INTEGER,
-    },
-    master_category_id:{
-        allowNull: false,
         type: DataTypes.INTEGER,
     },
     name:{
         allowNull: false,
         type: DataTypes.STRING,
     },
-    img_url:{
+    username:{
+        allowNull: false,
         type: DataTypes.STRING,
     },
-},{
-    tableName: "sub_categories",
-    timestamps: false,
-  })
+    password:{
+        type: DataTypes.STRING,
+    },
+},{tableName : "admin"})
 
-export default SubCategory
+export default Admin
