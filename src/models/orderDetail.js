@@ -2,7 +2,7 @@ import sequelize from "../config/db.js";
 import { DataTypes } from "sequelize";
 
 const OrderDetail = sequelize.define(
-  "order_details",
+  "OrderDetail",
   {
     detail_id: {
       primaryKey: true,

@@ -2,7 +2,7 @@ import sequelize from "../config/db.js";
 import { DataTypes } from "sequelize";
 
 const Comment = sequelize.define(
-  "comments",
+  "Comment",
   {
     comment_id: {
       primaryKey: true,

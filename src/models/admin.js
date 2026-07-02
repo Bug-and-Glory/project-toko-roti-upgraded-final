@@ -1,7 +1,9 @@
 import sequelize from "../config/db.js";
 import { DataTypes } from "sequelize";
 
-const Admin = sequelize.define("admin",{
+const Admin = sequelize.define(
+    "Admin",
+    {
     id:{
         primaryKey: true,
         type: DataTypes.INTEGER,

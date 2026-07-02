@@ -2,7 +2,7 @@ import sequelize from "../config/db.js";
 import { DataTypes } from "sequelize";
 
 const MasterCategory = sequelize.define(
-  "master_categories",
+  "MasterCategory",
   {
     id: {
       primaryKey: true,

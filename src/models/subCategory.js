@@ -1,7 +1,9 @@
 import sequelize from "../config/db.js";
 import { DataTypes } from "sequelize";
 
-const SubCategory = sequelize.define("sub_categories",{
+const SubCategory = sequelize.define(
+    "SubCategory",
+    {
     id:{
         primaryKey: true,
         type: DataTypes.INTEGER,
