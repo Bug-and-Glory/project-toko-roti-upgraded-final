@@ -6,6 +6,11 @@ const Order = sequelize.define(
   {
     order_id: {
       primaryKey: true,
+      type: DataTypes.BIGINT,
+      autoIncrement: true,
+    },
+    user_id: {
+      allowNull: false,
       type: DataTypes.INTEGER,
     },
     order_date: {
