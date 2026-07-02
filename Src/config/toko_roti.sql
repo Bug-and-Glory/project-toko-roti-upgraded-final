@@ -21,7 +21,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '44044b24-37e6-11f1-bade-ea9c50bcc08d:1-302';
+-- SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '44044b24-37e6-11f1-bade-ea9c50bcc08d:1-302';
 
 --
 -- Table structure for table `admin`
