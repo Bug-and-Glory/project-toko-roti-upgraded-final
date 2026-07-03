@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Masuk - YumYum Bakery</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="icon" href="/logo/logo_nama.png">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid px-0">
+
+            <a class="navbar-brand ms-0" href="/">
+                <img src="/logo/logo_nama.png" alt="YumYum Bakery" class="nav-logo-img"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+
+                <div class="nav-logo-fallback" style="display:none;">
+                    <div class="logo-box">
+                        <svg viewBox="0 0 48 48" fill="none" width="32" height="32">
+                            <ellipse cx="24" cy="28" rx="16" ry="10" fill="#c9922a" />
+                            <ellipse cx="24" cy="26" rx="14" ry="8" fill="#e8b84b" />
+                            <path d="M16 18 Q24 10 32 18" stroke="#c9922a" stroke-width="2.5" fill="none"
+                                stroke-linecap="round" />
+                            <text x="15" y="33" font-size="9" font-weight="bold" fill="#3b1f0e" font-family="serif">
+                                YB
+                            </text>
+                        </svg>
+                    </div>
+
+                    <div>
+                        <span class="brand-name text-white">YumYum</span>
+                        <span class="brand-sub d-block text-white-50">Bakery</span>
+                    </div>
+                </div>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/menu">MENU</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/store">STORE</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about_us">ABOUT US</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/history">HISTORY</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
+                    <a href="/cart" class="btn-cart">
+                        <img src="/icon/keranjang.png" alt="Cart">
+                        CART
+                        <span class="cart-badge" id="cartBadge">0</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="section-heading">
+        <p class="celebrate">Welcome Back</p>
+        <h2>MASUK AKUN</h2>
+        <p class="sub-title">- SILAKAN MASUK ATAU DAFTAR -</p>
+    </div>
+
+    <div class="contact-wrapper">
+        <div class="contact-card">
+            <div class="contact-form-side">
+
+                <div class="auth-tabs">
+                    <a href="/login" class="auth-tab active">MASUK</a>
+                    <a href="/register" class="auth-tab">DAFTAR</a>
+                </div>
+
+                <form action="/login" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Alamat Email</label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            placeholder="contoh@email.com"
+                            required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Kata Sandi</label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Masukkan kata sandi"
+                            required>
+                    </div>
+
+                   <div id="authMessage" class="auth-message mb-3" style="display: none;"></div>
+
+<button type="submit" class="btn-submit">MASUK</button>
+</form>
+
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="row g-4 mb-4">
+
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="d-flex flex-column align-items-start">
+                    <img src="/logo/logo_aja.png" alt="YumYum Bakery" class="footer-logo-main"
+                        onerror="this.src='https://via.placeholder.com/200x100?text=YumYum+Logo'">
+
+                    <img src="/icon/icon halal.png" alt="Halal" class="footer-halal"
+                        onerror="this.src='https://via.placeholder.com/80?text=Halal'">
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <h4>YUMYUM BAKERY</h4>
+
+                <ul>
+                    <li><a href="/about_us">About Us</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+
+                <div class="mt-sponsor">
+                    <h4>SPONSOR</h4>
+
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="sponsor-logo-box">
+                                <img src="/logo/anchor.png" alt="Anchor">
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="sponsor-logo-box">
+                                <img src="/logo/indofood.png" alt="Indofood">
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="sponsor-logo-box">
+                                <img src="/logo/gofood.png" alt="GoFood">
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="sponsor-logo-box">
+                                <img src="/logo/tokped.png" alt="Tokopedia">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-12">
+                <h4>HELP CENTER</h4>
+
+                <ul>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-4 col-md-12">
+                <h4>CONTACT US</h4>
+
+                <div class="contact-item">
+                    <img src="/icon/tlp.png">
+                    889070999
+                </div>
+
+                <div class="contact-item">
+                    <img src="/icon/wa.png">
+                    +62 887 1447 0009
+                </div>
+
+                <div class="contact-item">
+                    <img src="/icon/ig.png">
+                    @YumYum_Bakery
+                </div>
+
+                <div class="mt-pengaduan">
+                    <h4>LAYANAN PENGADUAN</h4>
+
+                    <div class="complaint-section">
+                        <p>PT Matahari Bulan Bintang Angkasa</p>
+                        <p>Email : marketing@yumyum.com</p>
+                        <p>0867 0000 1222 (WhatsApp)</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <hr class="footer-divider">
+
+        <p class="footer-bottom">
+            © 2024 YumYum Bakery. All rights reserved.
+        </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const searchBtn = document.getElementById("searchBtn");
+            const searchInput = document.getElementById("searchInput");
+
+            if (searchBtn && searchInput) {
+                searchBtn.addEventListener("click", () => {
+                    searchInput.classList.toggle("open");
+
+                    if (searchInput.classList.contains("open")) {
+                        searchInput.focus();
+                    }
+                });
+
+                searchInput.addEventListener("keypress", function (e) {
+                    if (e.key === "Enter") {
+                        e.preventDefault();
+
+                        const keyword = this.value.trim();
+
+                        if (keyword) {
+                            window.location.href = `/menu?search=${encodeURIComponent(keyword)}`;
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+    const params = new URLSearchParams(window.location.search);
+    const message = params.get("message");
+    const authMessage = document.getElementById("authMessage");
+
+    if (message && authMessage) {
+        authMessage.textContent = message;
+        authMessage.style.display = "block";
+    }
+</script>
+
+</body>
+
+</html>
