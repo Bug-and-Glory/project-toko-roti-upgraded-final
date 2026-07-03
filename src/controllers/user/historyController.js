@@ -1,25 +1,31 @@
 import Order from "../../models/order.js";
 import OrderDetail from "../../models/orderDetail.js";
-import Product from "../../models/product.js"; 
+import Product from "../../models/product.js";
 
+// Render halaman history (HTML), datanya diambil ulang via fetch dari /api/history di sisi client
+const showHistoryPage = (req, res, next) => {
+  try {
+    res.render("user/history", { title: "Riwayat Pesanan" });
+  } catch (error) {
+    next(error);
+  }
+};
 
-// Order.hasMany(OrderDetail, { foreignKey: "order_id" });
-// OrderDetail.belongsTo(Order, { foreignKey: "order_id" });
-// OrderDetail.belongsTo(Product, { foreignKey: "product_id" });
-
+// API JSON - ambil semua riwayat pesanan
 const getAllHistory = async (req, res) => {
   try {
-    // Ambil semua order + detail item + info product, terbaru duluan
     const orders = await Order.findAll({
       attributes: ["order_id", "customer_name", "order_date", "total_amount"],
       order: [["order_date", "DESC"]],
       include: [
         {
           model: OrderDetail,
+          as: "Order_OrderDetail",
           attributes: ["quantity", "price", "subtotal"],
           include: [
             {
               model: Product,
+              as: "OrderDetail_Product",
               attributes: [["name", "product_name"], "img_url"],
             },
           ],
@@ -35,15 +41,14 @@ const getAllHistory = async (req, res) => {
       });
     }
 
-    // Rapikan struktur data sebelum dikirim ke client
     const data = orders.map((o) => ({
       order_id: o.order_id,
       customer_name: o.customer_name,
       order_date: o.order_date,
       total_amount: o.total_amount,
-      items: o.order_details.map((d) => ({
-        product_name: d.product.product_name,
-        img_url: d.product.img_url,
+      items: o.Order_OrderDetail.map((d) => ({
+        product_name: d.OrderDetail_Product.product_name,
+        img_url: d.OrderDetail_Product.img_url,
         quantity: d.quantity,
         price: d.price,
         subtotal: d.subtotal,
@@ -65,20 +70,22 @@ const getAllHistory = async (req, res) => {
   }
 };
 
+// API JSON - ambil detail 1 pesanan berdasarkan order_id
 const getHistoryById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Ambil satu order + detail item + info product berdasarkan id
     const order = await Order.findByPk(id, {
       attributes: ["order_id", "customer_name", "order_date", "total_amount"],
       include: [
         {
           model: OrderDetail,
+          as: "Order_OrderDetail",
           attributes: ["quantity", "price", "subtotal"],
           include: [
             {
               model: Product,
+              as: "OrderDetail_Product",
               attributes: [["name", "product_name"], "img_url"],
             },
           ],
@@ -93,13 +100,12 @@ const getHistoryById = async (req, res) => {
       });
     }
 
-    // Rapikan struktur item sebelum dikirim ke client
-    const items = order.order_details.map((d) => ({
+    const items = order.Order_OrderDetail.map((d) => ({
       quantity: d.quantity,
       price: d.price,
       subtotal: d.subtotal,
-      product_name: d.product.product_name,
-      img_url: d.product.img_url,
+      product_name: d.OrderDetail_Product.product_name,
+      img_url: d.OrderDetail_Product.img_url,
     }));
 
     return res.status(200).json({
@@ -123,4 +129,4 @@ const getHistoryById = async (req, res) => {
   }
 };
 
-export { getAllHistory, getHistoryById };
+export { showHistoryPage, getAllHistory, getHistoryById };
