@@ -1,0 +1,82 @@
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container-fluid px-0">
+    <a class="navbar-brand ms-0" href="/">
+      <img src="/logo/logo_nama.png" alt="YumYum Bakery" class="nav-logo-img"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="nav-logo-fallback" style="display:none;">
+        <div class="logo-box">
+          <svg viewBox="0 0 48 48" fill="none" width="32" height="32">
+            <ellipse cx="24" cy="28" rx="16" ry="10" fill="#c9922a" />
+            <ellipse cx="24" cy="26" rx="14" ry="8" fill="#e8b84b" />
+            <path d="M16 18 Q24 10 32 18" stroke="#c9922a" stroke-width="2.5" fill="none" stroke-linecap="round" />
+            <text x="15" y="33" font-size="9" font-weight="bold" fill="#3b1f0e" font-family="serif">YB</text>
+          </svg>
+        </div>
+
+        <div>
+          <span class="brand-name" style="color:#fff">YumYum</span>
+          <span class="brand-sub d-block" style="color:rgba(255,255,255,0.7)">Bakery</span>
+        </div>
+      </div>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMain">
+
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/menu">MENU</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/store">STORE</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/aboutUs">ABOUT US</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/history">HISTORY</a>
+        </li>
+      </ul>
+
+      <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
+
+        <a href="/cart" class="btn-cart-navbar">
+          <span>CART</span>
+          <img src="/icon/keranjang.png" alt="Cart">
+        </a>
+
+        <% if (typeof user !== "undefined" && user) { %>
+
+          <details class="user-navbar-menu">
+
+            <summary class="btn-user-navbar">
+              <%= user.username %>
+            </summary>
+
+            <div class="user-navbar-dropdown">
+              <a href="/logout">
+                LOGOUT
+              </a>
+            </div>
+
+          </details>
+
+        <% } else { %>
+
+          <a href="/login" class="btn-login-navbar">
+            LOGIN/SIGN UP
+          </a>
+
+        <% } %>
+
+      </div>
+
+    </div>
+  </div>
+</nav>

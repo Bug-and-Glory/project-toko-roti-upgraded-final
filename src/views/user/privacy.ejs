@@ -10,49 +10,12 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
   <link href="/css/privacy.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/index.css">
 
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container-fluid px-0">
-    <a class="navbar-brand ms-0" href="/">
-      <img src="/logo/logo_nama.png" alt="YumYum Bakery" class="nav-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-      <div class="nav-logo-fallback" style="display:none;">
-        <div class="logo-box">
-          <span style="color:#fff; font-weight:bold;">YB</span>
-        </div>
-        <div>
-          <span class="brand-name" style="color:#fff">YumYum</span>
-          <span class="brand-sub d-block" style="color:rgba(255,255,255,0.7)">Bakery</span>
-        </div>
-      </div>
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarMain">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item"><a class="nav-link" href="/menu">MENU</a></li>
-        <li class="nav-item"><a class="nav-link" href="/store">STORE</a></li>
-        <li class="nav-item"><a class="nav-link" href="/aboutUs">ABOUT US</a></li>
-        <li class="nav-item"><a class="nav-link" href="/history">HISTORY</a></li>
-      </ul>
-      <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
-        <div class="search-wrapper">
-          <input type="text" id="searchInput" placeholder="Cari produk..." />
-          <button class="btn-search" id="btnSearch" onclick="document.getElementById('searchInput').classList.toggle('open')">
-            <img src="/icon/icon search.png" alt="Search" onerror="this.outerHTML='🔍'">
-          </button>
-        </div>
-        <a href="/cart" class="btn-cart">
-          <img src="/icon/keranjang.png" alt="Cart" onerror="this.outerHTML='🛒'"> CART
-          <span class="cart-badge" id="cartBadge">0</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</nav>
+<%- include('navbar') %>
 
 <div class="privacy-header">
   <h1>Privacy Policy</h1>
@@ -88,66 +51,7 @@
   <button class="btn-cookie" id="btnAcceptCookies">Mengerti & Setuju</button>
 </div>
 
-<footer>
-  <div class="row g-4 mb-4">
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <div class="d-flex flex-column align-items-start">
-        <img src="/logo/logo_aja.png" alt="YumYum Bakery Logo" class="footer-logo-main"
-             onerror="this.src='https://via.placeholder.com/200x100?text=YumYum+Logo'"/>
-        <img src="/icon/icon halal.png" alt="Halal" class="footer-halal"
-             onerror="this.src='https://via.placeholder.com/80?text=Halal'"/>
-      </div>
-    </div>
-
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <h4>YUMYUM BAKERY</h4>
-      <ul>
-        <li><a href="about_us">About Us</a></li>
-        <li><a href="commentForm">Contact</a></li>
-      </ul>
-      <div class="mt-sponsor">
-        <h4>SPONSOR</h4>
-        <div class="row g-2">
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/anchor.png" alt="Anchor" onerror="this.src='https://via.placeholder.com/100x40?text=Anchor'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/indofood.png" alt="Indofood" onerror="this.src='https://via.placeholder.com/100x40?text=Indofood'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/gofood.png" alt="GoFood" onerror="this.src='https://via.placeholder.com/100x40?text=GoFood'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/tokped.png" alt="Tokopedia" onerror="this.src='https://via.placeholder.com/100x40?text=Tokopedia'"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-lg-2 col-md-4 col-sm-12 mt-4 mt-md-0">
-      <h4>HELP CENTER</h4>
-      <ul>
-        <li><a href="/">Privacy Policy</a></li>
-      </ul>
-    </div>
-
-    <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
-      <h4>CONTACT US</h4>
-      <div class="contact-item">
-        <img src="/icon/tlp.png" alt="phone" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📞</span>'" /> 889070999
-      </div>
-      <div class="contact-item">
-        <img src="/icon/wa.png" alt="whatsapp" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📱</span>'" /> +62 887 1447 0009
-      </div>
-      <div class="contact-item">
-        <img src="/icon/ig.png" alt="instagram" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📸</span>'" /> @YumYum_Bakery
-      </div>
-      <div class="mt-pengaduan">
-        <h4>LAYANAN PENGADUAN</h4>
-        <div class="complaint-section">
-          <p>PT Matahari Bulan Bintang Angkasa</p>
-          <p>Email : marketing@yumyum.com</p>
-          <p>0867 0000 1222 (WhatsApp)</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <hr class="footer-divider"/>
-  <p class="footer-bottom">© 2024 YumYum Bakery. All rights reserved.</p>
-</footer>
+<%- include('footer') %>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
