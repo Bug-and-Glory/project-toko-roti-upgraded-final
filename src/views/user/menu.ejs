@@ -10,8 +10,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
   <link href="/css/menu.css" rel="stylesheet"/>
-
-  <!--  -->
 </head>
 <body>
 
@@ -81,17 +79,79 @@
 <div class="category-overview-container">
   <div class="cat-column">
     <button class="cat-btn" onclick="scrollToSection('food')">FOOD</button>
-    <div id="foodSubcatGrid" class="subcat-grid"></div>
+    <div id="foodSubcatGrid" class="subcat-grid">
+      <% foodCategories.forEach(cat => { %>
+        <div class="subcat-card" onclick="scrollToSection('<%= cat.slug %>')">
+          <img src="<%= cat.img %>" alt="<%= cat.name %>" />
+          <div class="subcat-card-label"><%= cat.displayName %></div>
+        </div>
+      <% }) %>
+    </div>
   </div>
   <div class="cat-divider-wrap"><span class="cat-divider-text">Categories</span><div class="cat-divider-line"></div></div>
   <div class="cat-column">
     <button class="cat-btn" onclick="scrollToSection('drink')">DRINK</button>
-    <div id="drinkSubcatGrid" class="subcat-grid"></div>
+    <div id="drinkSubcatGrid" class="subcat-grid">
+      <% drinkCategories.forEach(cat => { %>
+        <div class="subcat-card" onclick="scrollToSection('<%= cat.slug %>')">
+          <img src="<%= cat.img %>" alt="<%= cat.name %>" />
+          <div class="subcat-card-label"><%= cat.displayName %></div>
+        </div>
+      <% }) %>
+    </div>
   </div>
 </div>
 
 <div class="menu-content" id="menuContent">
-  <div id="menuSections"><div style="text-align:center; padding:60px 0; color:#999;">Memuat menu...</div></div>
+  <div id="menuSections">
+
+    <% if (sections && sections.length) { %>
+
+      <% sections.forEach((section, idx) => { %>
+
+        <% if (idx > 0) { %>
+          <div class="section-divider-line"></div>
+        <% } %>
+
+        <div class="product-section section-anchor" id="section-<%= section.slug %>">
+
+          <% if (section.isFirstFood) { %><span id="anchor-food"></span><% } %>
+          <% if (section.isFirstDrink) { %><span id="anchor-drink"></span><% } %>
+
+          <div class="section-title-wrap">
+            <div class="section-title-line"></div>
+            <span class="section-title-text"><%= section.displayName %></span>
+            <div class="section-title-line"></div>
+          </div>
+
+          <div class="product-row">
+
+            <% section.products.forEach(p => { %>
+
+              <div class="menu-card">
+                <div class="menu-card-img-wrap">
+                  <img src="<%= p.img_url %>" alt="<%= p.name %>" />
+                  <a href="/menu/<%= p.id %>" class="btn-add-overlay">Add To Cart</a>
+                </div>
+                <div class="menu-card-name"><%= p.name %></div>
+                <div class="menu-card-price">Rp.<%= new Intl.NumberFormat('id-ID').format(p.price) %></div>
+              </div>
+
+            <% }) %>
+
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    <% } else { %>
+
+      <div style="text-align:center; padding:60px 0; color:#999;">Belum ada menu tersedia.</div>
+
+    <% } %>
+
+  </div>
 </div>
 
 <footer>
@@ -156,104 +216,10 @@
 </footer>
 
 <script>
-  const API_BASE = '';
-  const displayNames = {
-    'Roti & Pastry': 'PASTRY', 'Cake & Dessert': 'CAKE',
-    'Cookies & Snack': 'COOKIES', 'Savory': 'SAVORY',
-    'Coffee': 'COFFEE', 'Non-Coffee': 'NON-COFFEE'
-  };
-
-  function formatRupiah(num) { return 'Rp.' + Number(num).toLocaleString('id-ID'); }
-  function slugify(str) { return str.toLowerCase().replace(/[^a-z0-9]/g, '-'); }
-
   function scrollToSection(type) {
     const target = document.getElementById('section-' + type) || document.getElementById('anchor-' + type);
     if (target) window.scrollTo({top: target.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth'});
   }
-
-  async function fetchMenuData() {
-    try {
-      const fetchUrl = `${API_BASE}/api/menu`;
-      const res = await fetch(fetchUrl);
-      const json = await res.json();
-      
-      if (json.success) {
-        buildCategoryOverview(json.data);
-        buildMenuSections(json.data);
-      }
-    } catch (err) { 
-      console.error("Gagal load data", err); 
-      document.getElementById('menuSections').innerHTML = `<div style="text-align:center; padding:60px 0; color:#999;">Gagal mengambil data dari server.</div>`;
-    }
-  }
-
-  function buildCategoryOverview(products) {
-    const foodSubcats = {};
-    const drinkItems = { 'Coffee': [], 'Non-Coffee': [] };
-
-    products.forEach(p => {
-      if (p.category === 'Makanan') {
-        if (!foodSubcats[p.sub_category]) foodSubcats[p.sub_category] = p.img_url;
-      } else if (p.category === 'Minuman') {
-        if (drinkItems[p.sub_category] && drinkItems[p.sub_category].length < 2) {
-          drinkItems[p.sub_category].push(p.img_url);
-        }
-      }
-    });
-
-    document.getElementById('foodSubcatGrid').innerHTML = Object.entries(foodSubcats).map(([name, img]) => `
-      <div class="subcat-card" onclick="scrollToSection('${slugify(name)}')">
-        <img src="${img}" alt="${name}" />
-        <div class="subcat-card-label">${displayNames[name] || name}</div>
-      </div>`).join('');
-
-    let drinkHtml = '';
-    Object.entries(drinkItems).forEach(([name, images]) => {
-      images.forEach(img => {
-        drinkHtml += `
-          <div class="subcat-card" onclick="scrollToSection('${slugify(name)}')">
-            <img src="${img}" alt="${name}" />
-            <div class="subcat-card-label">${displayNames[name] || name}</div>
-          </div>`;
-      });
-    });
-    document.getElementById('drinkSubcatGrid').innerHTML = drinkHtml;
-  }
-
-  function buildMenuSections(products) {
-    const grouped = {};
-    products.forEach(p => {
-      if (!grouped[p.sub_category]) grouped[p.sub_category] = [];
-      grouped[p.sub_category].push(p);
-    });
-
-    const orderedKeys = Object.keys(displayNames).filter(k => grouped[k]);
-    const foodKeys = ['Roti & Pastry', 'Cake & Dessert', 'Cookies & Snack', 'Savory'];
-    const firstFood = orderedKeys.find(k => foodKeys.includes(k));
-    const firstDrink = orderedKeys.find(k => !foodKeys.includes(k));
-
-    let html = '';
-    orderedKeys.forEach((subcat, idx) => {
-      if (idx > 0) html += `<div class="section-divider-line"></div>`;
-      html += `
-        <div class="product-section section-anchor" id="section-${slugify(subcat)}">
-          ${subcat === firstFood ? '<span id="anchor-food"></span>' : ''}
-          ${subcat === firstDrink ? '<span id="anchor-drink"></span>' : ''}
-          <div class="section-title-wrap"><div class="section-title-line"></div><span class="section-title-text">${displayNames[subcat]}</span><div class="section-title-line"></div></div>
-          <div class="product-row">
-            ${grouped[subcat].map(p => `
-              <div class="menu-card">
-                <div class="menu-card-img-wrap"><img src="${p.img_url || ''}" alt="${p.name}" /><a href="/menu/${p.id}" class="btn-add-overlay">Add To Cart</a></div>
-                <div class="menu-card-name">${p.name}</div>
-                <div class="menu-card-price">${formatRupiah(p.price)}</div>
-              </div>`).join('')}
-          </div>
-        </div>`;
-    });
-    document.getElementById('menuSections').innerHTML = html;
-  }
-
-  fetchMenuData();
 
   async function addToCart(productId, event) {
     if (event) {

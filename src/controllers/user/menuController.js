@@ -27,44 +27,91 @@ const baseInclude = [
   },
 ];
 
+// Label tampilan & urutan subkategori di halaman menu
+const DISPLAY_NAMES = {
+  "Roti & Pastry": "PASTRY",
+  "Cake & Dessert": "CAKE",
+  "Cookies & Snack": "COOKIES",
+  Savory: "SAVORY",
+  Coffee: "COFFEE",
+  "Non-Coffee": "NON-COFFEE",
+};
+const FOOD_SUBCATS = ["Roti & Pastry", "Cake & Dessert", "Cookies & Snack", "Savory"];
+const DRINK_SUBCATS = ["Coffee", "Non-Coffee"];
+
+const slugify = (str) => str.toLowerCase().replace(/[^a-z0-9]/g, "-");
+
 // ===============================
 // Get All Products
 // ===============================
-const getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res, next) => {
   try {
     const products = await Product.findAll({
       include: baseInclude,
       order: [
         [
-          {
-            model: SubCategory,
-            as: "Product_SubCategory",
-          },
-          {
-            model: MasterCategory,
-            as: "Sub_MasterCategory",
-          },
+          { model: SubCategory, as: "Product_SubCategory" },
+          { model: MasterCategory, as: "Sub_MasterCategory" },
           "name",
           "ASC",
         ],
-        [
-          {
-            model: SubCategory,
-            as: "Product_SubCategory",
-          },
-          "name",
-          "ASC",
-        ],
+        [{ model: SubCategory, as: "Product_SubCategory" }, "name", "ASC"],
         ["name", "ASC"],
       ],
     });
 
-    return res.render("user/menu")
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
+    // Kelompokkan produk per sub kategori
+    const grouped = {};
+    products.forEach((p) => {
+      const subName = p.Product_SubCategory ? p.Product_SubCategory.name : "Lainnya";
+      if (!grouped[subName]) grouped[subName] = [];
+      grouped[subName].push(p);
     });
+
+    // Susun urutan section sesuai DISPLAY_NAMES, cuma yang ada produknya
+    const orderedSubcats = Object.keys(DISPLAY_NAMES).filter((key) => grouped[key]);
+
+    const firstFood = orderedSubcats.find((key) => FOOD_SUBCATS.includes(key));
+    const firstDrink = orderedSubcats.find((key) => DRINK_SUBCATS.includes(key));
+
+    const sections = orderedSubcats.map((subName) => ({
+      subCategory: subName,
+      displayName: DISPLAY_NAMES[subName],
+      slug: slugify(subName),
+      isFirstFood: subName === firstFood,
+      isFirstDrink: subName === firstDrink,
+      products: grouped[subName],
+    }));
+
+    // Kartu kategori bagian atas: FOOD 1 kartu/subkategori, DRINK maks 2 gambar/subkategori
+    const foodCategories = FOOD_SUBCATS.filter((key) => grouped[key]).map((key) => ({
+      name: key,
+      displayName: DISPLAY_NAMES[key],
+      slug: slugify(key),
+      img: grouped[key][0].img_url,
+    }));
+
+    const drinkCategories = [];
+    DRINK_SUBCATS.filter((key) => grouped[key]).forEach((key) => {
+      grouped[key].slice(0, 2).forEach((p) => {
+        drinkCategories.push({
+          name: key,
+          displayName: DISPLAY_NAMES[key],
+          slug: slugify(key),
+          img: p.img_url,
+        });
+      });
+    });
+
+    return res.render("user/menu", {
+      title: "Menu",
+      user: req.session.user || null,
+      sections,
+      foodCategories,
+      drinkCategories,
+    });
+  } catch (err) {
+    next(err);
   }
 };
 
