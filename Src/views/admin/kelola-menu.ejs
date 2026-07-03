@@ -56,7 +56,7 @@
         </li>
 
         <li>
-            <a href="/admin/login">
+            <a href="/admin/logout">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </a>
@@ -88,6 +88,12 @@
 
     <div class="content-wrapper">
 
+        <% if (message && message.length) { %>
+        <div class="alert alert-info" role="alert">
+            <%= message %>
+        </div>
+        <% } %>
+
         <div class="custom-card">
 
             <div class="table-responsive">
@@ -117,7 +123,7 @@
 
                             <td>
                                 <img
-                                src="<%= menu.image %>"
+                                src="<%= menu.img_url %>"
                                 class="menu-image">
                             </td>
 
@@ -126,16 +132,22 @@
                             </td>
 
                             <td>
-                                <%= menu.category %>
+                                <%= menu.Product_SubCategory ? menu.Product_SubCategory.name : '-' %>
                             </td>
 
                             <td>
-                                Rp <%= menu.price %>
+                                Rp <%= new Intl.NumberFormat('id-ID').format(menu.price) %>
                             </td>
 
                         </tr>
 
                         <% }) %>
+
+                    <% } else { %>
+
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">Belum ada menu</td>
+                        </tr>
 
                     <% } %>
 
@@ -179,7 +191,7 @@ data-bs-dismiss="modal"></button>
 
 <div class="modal-body">
 
-<form action="/menu/add" method="POST" enctype="multipart/form-data">
+<form action="/admin/kelola-menu/add" method="POST">
 
 <div class="row g-3">
 
@@ -190,29 +202,28 @@ data-bs-dismiss="modal"></button>
 
 <div class="col-md-6">
 <label class="form-label">Harga</label>
-<input type="number" class="form-control" name="price" required>
+<input type="number" class="form-control" name="price" min="1" required>
 </div>
 
 <div class="col-md-6">
 <label class="form-label">Kategori</label>
-<select class="form-select" name="category">
+<select class="form-select" name="category" required>
 
-<option>Roti</option>
-<option>Pastry</option>
-<option>Cake</option>
-<option>Coffee</option>
+<% categories.forEach(cat => { %>
+<option value="<%= cat.name %>"><%= cat.name %></option>
+<% }) %>
 
 </select>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Link Gambar</label>
+<input type="url" class="form-control" name="image" placeholder="https://..." required>
 </div>
 
 <div class="col-12">
 <label class="form-label">Deskripsi</label>
 <textarea class="form-control" rows="4" name="description"></textarea>
-</div>
-
-<div class="col-12">
-<label class="form-label">Upload Gambar</label>
-<input type="file" class="form-control" name="image">
 </div>
 
 </div>

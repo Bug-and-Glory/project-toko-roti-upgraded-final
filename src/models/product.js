@@ -6,7 +6,8 @@ const Product = sequelize.define(
   {
     id: {
       primaryKey: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
+      autoIncrement: true,
     },
     sub_category_id: {
       allowNull: false,

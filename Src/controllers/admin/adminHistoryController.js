@@ -28,6 +28,8 @@ export const getHistoryAdmin = async (req, res, next) => {
       transactions,
       currentPage: Number(page),
       totalPages: Math.ceil(count / limit),
+      customer: customer || "",
+      date: date || "",
     });
   } catch (error) {
     next(error);

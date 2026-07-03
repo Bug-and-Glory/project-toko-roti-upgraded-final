@@ -117,7 +117,7 @@
                     </div>
 
                     <h2>
-                        <%= totalMenu || 120 %>
+                        <%= totalMenu %>
                     </h2>
 
                     <p>Total Menu</p>
@@ -135,7 +135,7 @@
                     </div>
 
                     <h2>
-                        <%= totalOrder || 245 %>
+                        <%= totalOrder%>
                     </h2>
 
                     <p>Total Order</p>
@@ -153,7 +153,7 @@
                     </div>
 
                     <h2>
-                        Rp <%= totalRevenue || '24.500.000' %>
+                        Rp <%= totalRevenue  %>
                     </h2>
 
                     <p>Total Pendapatan</p>
@@ -171,7 +171,7 @@
                     </div>
 
                     <h2>
-                        <%= totalHistory || 580 %>
+                        <%= totalHistory  %>
                     </h2>
 
                     <p>Total Riwayat</p>
@@ -198,23 +198,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Data ini nantinya dirender dari backend Node.js -->
+                        <% if (recentOrders && recentOrders.length) { %>
+                            <% recentOrders.forEach(order => { %>
                             <tr>
-                                <td>02 Juli 2026</td>
-                                <td>Budi Santoso</td>
-                                <td>Rp 150.000</td>
+                                <td>
+                                    <%= new Date(order.order_date).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }) %>
+                                </td>
+                                <td>
+                                    <%= order.customer_name %>
+                                </td>
+                                <td>
+                                    Rp <%= new Intl.NumberFormat('id-ID').format(order.total_amount) %>
+                                </td>
                             </tr>
+                            <% }) %>
+                        <% } else { %>
                             <tr>
-                                <td>02 Juli 2026</td>
-                                <td>Siti Aminah</td>
-                                <td>Rp 75.000</td>
+                                <td colspan="3" class="text-center text-muted">Belum ada transaksi</td>
                             </tr>
-                            <tr>
-                                <td>01 Juli 2026</td>
-                                <td>Ahmad Reza</td>
-                                <td>Rp 210.000</td>
-                            </tr>
-                        </tbody>
+                        <% } %>
+                    </tbody>
                     </table>
                 </div>
             </div>

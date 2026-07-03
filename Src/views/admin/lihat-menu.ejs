@@ -56,7 +56,7 @@
         </li>
 
         <li>
-            <a href="/admin/login">
+            <a href="/admin/logout">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </a>
@@ -84,24 +84,30 @@
 
     <h5>Daftar Menu Bakery</h5>
 
-    <div class="table-tools">
+    <form method="GET" action="/admin/lihat-menu" class="table-tools">
 
         <input
         type="text"
+        name="search"
         class="form-control"
-        placeholder="Cari menu...">
+        placeholder="Cari menu..."
+        value="<%= search %>">
 
-        <select class="form-select">
+        <select class="form-select" name="category" onchange="this.form.submit()">
 
-            <option>Semua Kategori</option>
-            <option>Roti</option>
-            <option>Pastry</option>
-            <option>Cake</option>
-            <option>Coffee</option>
+            <option value="">Semua Kategori</option>
+
+            <% categories.forEach(cat => { %>
+            <option value="<%= cat.name %>" <%= category === cat.name ? 'selected' : '' %>>
+                <%= cat.name %>
+            </option>
+            <% }) %>
 
         </select>
 
-    </div>
+        <button type="submit" class="btn btn-gold">Cari</button>
+
+    </form>
 
 </div>
 
@@ -131,7 +137,7 @@
                 <td>
 
                     <img
-                    src="<%= menu.image %>"
+                    src="<%= menu.img_url %>"
                     class="menu-image">
 
                 </td>
@@ -141,11 +147,11 @@
                 </td>
 
                 <td>
-                    <%= menu.category %>
+                    <%= menu.Product_SubCategory ? menu.Product_SubCategory.name : '-' %>
                 </td>
 
                 <td>
-                    Rp <%= menu.price %>
+                    Rp <%= new Intl.NumberFormat('id-ID').format(menu.price) %>
                 </td>
 
             </tr>

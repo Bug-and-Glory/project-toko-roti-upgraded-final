@@ -47,7 +47,7 @@
             </a>
         </li>
         <li>
-            <a href="/admin/login">
+            <a href="/admin/logout">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </a>
@@ -64,21 +64,21 @@
 
     <div class="content-wrapper">
         <div class="custom-card">
-            
+
             <!-- Filter Section -->
-            <div class="row g-3 mb-4">
+            <form method="GET" action="/admin/history-admin" class="row g-3 mb-4">
                 <div class="col-lg-6">
-                    <input type="text" class="form-control" placeholder="Cari nama pelanggan...">
+                    <input type="text" name="customer" class="form-control" placeholder="Cari nama pelanggan..." value="<%= customer %>">
                 </div>
                 <div class="col-lg-4">
-                    <input type="date" class="form-control">
+                    <input type="date" name="date" class="form-control" value="<%= date %>">
                 </div>
                 <div class="col-lg-2">
-                    <button class="btn w-100" style="background-color: #0448A8; color: white;">
+                    <button type="submit" class="btn w-100" style="background-color: #0448A8; color: white;">
                         Filter
                     </button>
                 </div>
-            </div>
+            </form>
 
             <!-- Table Section -->
             <div class="table-responsive">
@@ -89,45 +89,57 @@
                             <th>Order ID</th>
                             <th>Pelanggan</th>
                             <th>Total Pembayaran</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>02 Juli 2026</td>
-                            <td>#ORD-0992</td>
-                            <td>Budi Santoso</td>
-                            <td>Rp 150.000</td>
-                            <td><button class="btn btn-sm btn-outline-secondary">Detail</button></td>
-                        </tr>
-                        <tr>
-                            <td>02 Juli 2026</td>
-                            <td>#ORD-0991</td>
-                            <td>Siti Aminah</td>
-                            <td>Rp 75.000</td>
-                            <td><button class="btn btn-sm btn-outline-secondary">Detail</button></td>
-                        </tr>
+
+                        <% if (transactions && transactions.length) { %>
+
+                            <% transactions.forEach(trx => { %>
+                            <tr>
+                                <td>
+                                    <%= new Date(trx.order_date).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }) %>
+                                </td>
+                                <td>#ORD-<%= String(trx.order_id).padStart(4, '0') %></td>
+                                <td><%= trx.customer_name %></td>
+                                <td>Rp <%= new Intl.NumberFormat('id-ID').format(trx.total_amount) %></td>
+                            </tr>
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">Belum ada transaksi</td>
+                            </tr>
+
+                        <% } %>
+
                     </tbody>
                 </table>
             </div>
 
             <!-- Pagination -->
+            <% if (totalPages > 1) { %>
             <nav class="mt-4">
                 <ul class="pagination justify-content-end">
-                    <li class="page-item">
-                        <a class="page-link" href="#">Previous</a>
+
+                    <li class="page-item <%= currentPage <= 1 ? 'disabled' : '' %>">
+                        <a class="page-link" href="?page=<%= currentPage - 1 %>&customer=<%= customer %>&date=<%= date %>">Previous</a>
                     </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">1</a>
+
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                            <a class="page-link" href="?page=<%= i %>&customer=<%= customer %>&date=<%= date %>"><%= i %></a>
+                        </li>
+                    <% } %>
+
+                    <li class="page-item <%= currentPage >= totalPages ? 'disabled' : '' %>">
+                        <a class="page-link" href="?page=<%= currentPage + 1 %>&customer=<%= customer %>&date=<%= date %>">Next</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
+
                 </ul>
             </nav>
+            <% } %>
 
         </div>
     </div>

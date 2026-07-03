@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import sequelize from "../../config/db.js";
 import {
   Product,
@@ -23,15 +24,38 @@ const baseInclude = [
   },
 ];
 
-// Halaman "Lihat Menu" - list semua menu, read-only
+// Halaman "Lihat Menu" - list semua menu, bisa dicari nama & difilter kategori
 export const getLihatMenu = async (req, res, next) => {
   try {
-    const menuList = await Product.findAll({ include: baseInclude, order: [["name", "ASC"]] });
+    const { search, category } = req.query;
+
+    const where = {};
+    if (search) {
+      where.name = { [Op.like]: `%${search}%` };
+    }
+
+    const include = baseInclude.map((item) => {
+      if (item.as === "Product_SubCategory" && category) {
+        return { ...item, where: { name: category } };
+      }
+      return item;
+    });
+
+    const menuList = await Product.findAll({
+      where,
+      include,
+      order: [["name", "ASC"]],
+    });
+
+    const categories = await SubCategory.findAll({ attributes: ["id", "name"] });
 
     res.render("admin/lihat-menu", {
       title: "Lihat Menu",
       admin: req.session.admin || null,
       menuList,
+      categories,
+      search: search || "",
+      category: category || "",
     });
   } catch (error) {
     next(error);
@@ -41,6 +65,9 @@ export const getLihatMenu = async (req, res, next) => {
 // Halaman "Kelola Menu" - list menu + data kategori buat dropdown form tambah
 export const getKelolaMenu = async (req, res, next) => {
   try {
+    const message = req.session.message || "";
+    req.session.message = "";
+
     const menuList = await Product.findAll({ include: baseInclude, order: [["name", "ASC"]] });
     const categories = await SubCategory.findAll({ attributes: ["id", "name"] });
 
@@ -49,6 +76,7 @@ export const getKelolaMenu = async (req, res, next) => {
       admin: req.session.admin || null,
       menuList,
       categories,
+      message,
     });
   } catch (error) {
     next(error);
