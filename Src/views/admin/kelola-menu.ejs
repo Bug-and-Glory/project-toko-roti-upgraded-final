@@ -102,7 +102,6 @@
                         <th>Nama Menu</th>
                         <th>Kategori</th>
                         <th>Harga</th>
-                        <th>Aksi</th>
 
                     </tr>
 
@@ -132,28 +131,6 @@
 
                             <td>
                                 Rp <%= menu.price %>
-                            </td>
-
-                            <td>
-
-                                <button
-                                    class="btn btn-sm btn-secondary"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editMenuModal">
-
-                                    <i class="fa-solid fa-pen"></i>
-
-                                </button>
-
-                                <button
-                                    class="btn btn-sm btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteMenuModal">
-
-                                    <i class="fa-solid fa-trash"></i>
-
-                                </button>
-
                             </td>
 
                         </tr>
@@ -251,114 +228,6 @@ Tambah Menu
 </div>
 
 </form>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="modal fade" id="editMenuModal">
-
-<div class="modal-dialog modal-lg">
-
-<div class="modal-content">
-
-<div class="modal-header">
-
-<h5>Edit Menu</h5>
-
-<button
-class="btn-close"
-data-bs-dismiss="modal"></button>
-
-</div>
-
-<div class="modal-body">
-
-<form>
-
-<div class="row g-3">
-
-<div class="col-md-6">
-<input class="form-control" value="Croissant Butter">
-</div>
-
-<div class="col-md-6">
-<input class="form-control" value="25000">
-</div>
-
-<div class="col-12">
-<textarea class="form-control" rows="4">Croissant premium dengan butter pilihan.</textarea>
-</div>
-
-</div>
-
-<div class="mt-4">
-
-<button class="btn btn-gold">
-
-Simpan Perubahan
-
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="modal fade" id="deleteMenuModal">
-
-<div class="modal-dialog">
-
-<div class="modal-content">
-
-<div class="modal-header">
-
-<h5>Konfirmasi Hapus</h5>
-
-<button
-class="btn-close"
-data-bs-dismiss="modal"></button>
-
-</div>
-
-<div class="modal-body">
-
-<p>
-Apakah Anda yakin ingin menghapus menu ini?
-</p>
-
-<strong>
-Croissant Butter
-</strong>
-
-</div>
-
-<div class="modal-footer">
-
-<button
-class="btn btn-secondary"
-data-bs-dismiss="modal">
-
-Batal
-
-</button>
-
-<button class="btn btn-danger">
-
-Hapus
-
-</button>
 
 </div>
 
