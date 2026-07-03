@@ -20,8 +20,13 @@ const Admin = sequelize.define(
         type: DataTypes.STRING,
     },
 },{tableName : "admin",
+<<<<<<< Updated upstream
     timestamps: true,
     underscored: true,
+=======
+    timestamps : true,
+    underscored : true,
+>>>>>>> Stashed changes
 })
 
 export default Admin
