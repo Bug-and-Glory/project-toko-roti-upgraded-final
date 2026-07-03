@@ -1,18 +1,25 @@
 import express from "express";
 import * as commentController from "../../controllers/user/commentController.js";
+import { isLoggedIn } from "../../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
+// Menampilkan form komentar
+router.get("/comment", isLoggedIn, commentController.showCommentForm);
+
+// Menyimpan komentar
+router.post("/comment", isLoggedIn, commentController.createComment);
+
 // Menampilkan semua komentar
-router.get("/comment", commentController.getAllComments);
+router.get("/showComments", commentController.showComments);
 
-// Menambahkan komentar
-router.post("/comment", commentController.createComment);
+// Menampilkan form edit komentar
+router.get("/comment/:id/edit", isLoggedIn, commentController.showEditComment);
 
-// Mengubah komentar
-router.put("/comment/:id", commentController.updateComment);
+// Menyimpan perubahan komentar
+router.post("/comment/:id/edit", isLoggedIn, commentController.updateComment);
 
 // Menghapus komentar
-router.delete("/comment/:id", commentController.deleteComment);
+router.post("/comment/:id/delete", isLoggedIn, commentController.deleteComment);
 
 export default router;
