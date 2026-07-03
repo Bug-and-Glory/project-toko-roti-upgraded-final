@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Komentar — YumYum Bakery</title>
+  <title><%= locals.pageTitle || 'Komentar — YumYum Bakery' %></title>
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="/public/css/commentPage.css">
+
+  <link href="/css/commentForm-login.css" rel="stylesheet"/>
+  <link href="/css/commentPage.css" rel="stylesheet"/>
+
 </head>
 <body>
 
-<!-- ============================================================
-     NAVBAR 
-============================================================ -->
 <nav class="navbar navbar-expand-lg sticky-top">
   <div class="container-fluid px-0">
     <a class="navbar-brand ms-0" href="/">
-      <img src="/assets/logo/logo_nama.png" alt="YumYum Bakery" class="nav-logo-img"
+      <img src="/logo/logo_nama.png" alt="YumYum Bakery" class="nav-logo-img"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
       <div class="nav-logo-fallback" style="display:none;">
         <div class="logo-box">
@@ -41,14 +41,14 @@
 
     <div class="collapse navbar-collapse" id="navbarMain">
       <ul class="navbar-nav mx-auto">
-        <li class="nav-item"><a class="nav-link" href="/menu">MENU</a></li>
+        <li class="nav-item"><a class="nav-link" href="menu">MENU</a></li>
         <li class="nav-item"><a class="nav-link" href="/store">STORE</a></li>
-        <li class="nav-item"><a class="nav-link" href="/about_us">ABOUT US</a></li>
+        <li class="nav-item"><a class="nav-link" href="about_us">ABOUT US</a></li>
         <li class="nav-item"><a class="nav-link" href="/history">HISTORY</a></li>
       </ul>
       <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
         <a href="/cart" class="btn-cart">
-          <img src="/assets/icon/keranjang.png" alt="Cart"
+          <img src="/icon/keranjang.png" alt="Cart"
                onerror="this.outerHTML='<span style=\'font-size:18px;\'>🛒</span>'"> CART
         </a>
       </div>
@@ -56,13 +56,9 @@
   </div>
 </nav>
 
-<!-- ============================================================
-     MAIN CONTENT
-============================================================ -->
 <div class="page-wrapper">
   <h1 class="page-title">Komentar & Saran</h1>
 
-  <!-- Daftar komentar dari backend -->
   <div id="commentList">
     <div class="state-box">
       <div class="icon">⏳</div>
@@ -71,54 +67,50 @@
   </div>
 </div>
 
-<!-- Toast notifikasi -->
 <div class="toast-notification" id="toastNotif"></div>
 
-<!-- ============================================================
-     FOOTER (copy persis dari index.html)
-============================================================ -->
 <footer>
   <div class="row g-4 mb-4">
     <div class="col-lg-3 col-md-4 col-sm-6">
       <div class="d-flex flex-column align-items-start">
-        <img src="/assets/logo/logo_aja.png" alt="YumYum Bakery Logo" class="footer-logo-main"
+        <img src="/logo/logo_aja.png" alt="YumYum Bakery Logo" class="footer-logo-main"
              onerror="this.src='https://via.placeholder.com/200x100?text=YumYum+Logo'"/>
-        <img src="/assets/icon/icon halal.png" alt="Halal" class="footer-halal"
+        <img src="/icon/icon halal.png" alt="Halal" class="footer-halal"
              onerror="this.src='https://via.placeholder.com/80?text=Halal'"/>
       </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-6">
       <h4>YUMYUM BAKERY</h4>
       <ul>
-        <li><a href="/about_us">About Us</a></li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href="about_us">About Us</a></li>
+        <li><a href="contact">Contact</a></li>
       </ul>
       <div class="mt-sponsor">
         <h4>SPONSOR</h4>
         <div class="row g-2">
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/assets/logo/anchor.png" alt="Anchor" onerror="this.src='https://via.placeholder.com/100x40?text=Anchor'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/assets/logo/indofood.png" alt="Indofood" onerror="this.src='https://via.placeholder.com/100x40?text=Indofood'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/assets/logo/gofood.png" alt="GoFood" onerror="this.src='https://via.placeholder.com/100x40?text=GoFood'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/assets/logo/tokped.png" alt="Tokopedia" onerror="this.src='https://via.placeholder.com/100x40?text=Tokopedia'"></div></div>
+          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/anchor.png" alt="Anchor" onerror="this.src='https://via.placeholder.com/100x40?text=Anchor'"></div></div>
+          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/indofood.png" alt="Indofood" onerror="this.src='https://via.placeholder.com/100x40?text=Indofood'"></div></div>
+          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/gofood.png" alt="GoFood" onerror="this.src='https://via.placeholder.com/100x40?text=GoFood'"></div></div>
+          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/tokped.png" alt="Tokopedia" onerror="this.src='https://via.placeholder.com/100x40?text=Tokopedia'"></div></div>
         </div>
       </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-12 mt-4 mt-md-0">
       <h4>HELP CENTER</h4>
       <ul>
-        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="privacy">Privacy Policy</a></li>
       </ul>
     </div>
     <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
       <h4>CONTACT US</h4>
       <div class="contact-item">
-        <img src="/assets/icon/tlp.png" alt="phone" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📞</span>'" /> 889070999
+        <img src="/icon/tlp.png" alt="phone" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📞</span>'" /> 889070999
       </div>
       <div class="contact-item">
-        <img src="/assets/icon/wa.png" alt="whatsapp" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📱</span>'" /> +62 887 1447 0009
+        <img src="/icon/wa.png" alt="whatsapp" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📱</span>'" /> +62 887 1447 0009
       </div>
       <div class="contact-item">
-        <img src="/assets/icon/ig.png" alt="instagram" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📸</span>'" /> @YumYum_Bakery
+        <img src="/icon/ig.png" alt="instagram" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📸</span>'" /> @YumYum_Bakery
       </div>
       <div class="mt-pengaduan">
         <h4>LAYANAN PENGADUAN</h4>
@@ -136,18 +128,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  // ============================================================
-  //  CONFIG
-  // ============================================================
   const API_BASE = 'http://localhost:3000/api';
-
-  // Endpoint komentar berasal dari form Contact Us
-  // Sesuaikan path ini dengan route backend yang menyimpan saran/pesan contact
   const COMMENTS_ENDPOINT = `${API_BASE}/comments`;
 
-  // ============================================================
-  //  UTILS
-  // ============================================================
   function showToast(msg, duration = 2500) {
     const t = document.getElementById('toastNotif');
     t.textContent = msg;
@@ -155,8 +138,6 @@
     setTimeout(() => t.classList.remove('show'), duration);
   }
 
-
-  // Ikon avatar default (SVG orang)
   const avatarSVG = `
     <svg viewBox="0 0 40 40" fill="none" width="40" height="40">
       <circle cx="20" cy="20" r="20" fill="#d0ccc8"/>
@@ -164,12 +145,10 @@
       <ellipse cx="20" cy="34" rx="11" ry="8" fill="#b0aba7"/>
     </svg>`;
 
-  // ============================================================
-  //  RENDER SATU CARD KOMENTAR
-  // ============================================================
   function createCommentCard(item) {
     const isDeleted = item.is_deleted || false;
-    const bodyText = item.message || item.comment || item.content || '';    const bodyClass = isDeleted ? 'comment-body deleted' : 'comment-body';
+    const bodyText = item.message || item.comment || item.content || '';    
+    const bodyClass = isDeleted ? 'comment-body deleted' : 'comment-body';
     const author    = item.name || item.username || 'Pengguna';
     const dateStr   = item.created_at || item.date || item.timestamp || new Date().toISOString();
 
@@ -178,7 +157,6 @@
     card.dataset.id = item.id;
 
     card.innerHTML = `
-      <!-- Header -->
       <div class="comment-header">
         <div class="comment-avatar">${avatarSVG}</div>
         <div class="comment-meta">
@@ -187,10 +165,8 @@
         </div>
       </div>
 
-      <!-- Isi komentar -->
       <div class="${bodyClass}" id="body-${item.id}">${escapeHtml(bodyText)}</div>
 
-      <!-- Form edit (tersembunyi, muncul saat klik Edit) -->
       ${!isDeleted ? `
       <div class="edit-form" id="edit-${item.id}">
         <textarea id="edit-text-${item.id}">${escapeHtml(bodyText)}</textarea>
@@ -200,7 +176,6 @@
         </div>
       </div>` : ''}
 
-      <!-- Tombol ⋯ + dropdown Edit / Hapus -->
       ${!isDeleted ? `
       <div class="comment-menu-wrap">
         <button class="btn-dots" onclick="toggleDropdown(${item.id})" title="Opsi">⋯</button>
@@ -214,7 +189,6 @@
     return card;
   }
 
-  // Escape HTML untuk mencegah XSS
   function escapeHtml(str) {
     return String(str)
       .replace(/&/g, '&amp;')
@@ -223,9 +197,6 @@
       .replace(/"/g, '&quot;');
   }
 
-  // ============================================================
-  //  FETCH — GET semua komentar dari backend
-  // ============================================================
   async function loadComments() {
     const list = document.getElementById('commentList');
     list.innerHTML = `<div class="state-box"><div class="icon">⏳</div><p>Memuat komentar...</p></div>`;
@@ -234,7 +205,6 @@
       const res  = await fetch(COMMENTS_ENDPOINT);
       const json = await res.json();
 
-      // Support berbagai format response: { data: [] } atau array langsung
       const items = Array.isArray(json) ? json : (json.data || []);
 
       if (items.length === 0) {
@@ -259,27 +229,19 @@
     }
   }
 
-  // ============================================================
-  //  DROPDOWN ⋯ — buka / tutup
-  // ============================================================
   function toggleDropdown(id) {
-    // Tutup semua dropdown lain dulu
     document.querySelectorAll('.dots-dropdown.open').forEach(el => {
       if (el.id !== `dropdown-${id}`) el.classList.remove('open');
     });
     document.getElementById(`dropdown-${id}`).classList.toggle('open');
   }
 
-  // Tutup dropdown jika klik di luar
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.comment-menu-wrap')) {
       document.querySelectorAll('.dots-dropdown.open').forEach(el => el.classList.remove('open'));
     }
   });
 
-  // ============================================================
-  //  EDIT — buka form edit inline
-  // ============================================================
   function openEdit(id) {
     document.getElementById(`dropdown-${id}`).classList.remove('open');
     document.getElementById(`body-${id}`).style.display  = 'none';
@@ -292,21 +254,19 @@
     document.getElementById(`body-${id}`).style.display = '';
   }
 
-  // FETCH — PUT/PATCH edit komentar ke backend
   async function saveEdit(id) {
     const newText = document.getElementById(`edit-text-${id}`).value.trim();
     if (!newText) { showToast('⚠️ Komentar tidak boleh kosong'); return; }
 
     try {
       const res = await fetch(`${COMMENTS_ENDPOINT}/${id}`, {
-        method: 'PUT',        // Sesuaikan dengan PATCH jika backend pakai PATCH
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: newText })
       });
 
       if (!res.ok) throw new Error('Gagal menyimpan');
 
-      // Update tampilan tanpa reload
       document.getElementById(`body-${id}`).textContent = newText;
       cancelEdit(id);
       showToast('✅ Komentar berhasil diperbarui');
@@ -316,9 +276,6 @@
     }
   }
 
-  // ============================================================
-  //  DELETE — hapus komentar via backend
-  // ============================================================
   async function deleteComment(id) {
     if (!confirm('Hapus komentar ini?')) return;
 
@@ -329,7 +286,6 @@
 
       if (!res.ok) throw new Error('Gagal menghapus');
 
-      // Hapus langsung dari UI
       const card = document.querySelector(`.comment-card[data-id="${id}"]`);
       if (card) card.remove();
 
@@ -349,9 +305,6 @@
     });
   }
 
-  // ============================================================
-  //  INIT
-  // ============================================================
   loadComments();
 </script>
 
