@@ -1,243 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>YumYum Bakery</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="/css/index.css">
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container-fluid px-0">
-    <a class="navbar-brand ms-0" href="/">
-      <img src="/logo/logo_nama.png" alt="YumYum Bakery" class="nav-logo-img"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-      <div class="nav-logo-fallback" style="display:none;">
-        <div class="logo-box">
-          <svg viewBox="0 0 48 48" fill="none" width="32" height="32">
-            <ellipse cx="24" cy="28" rx="16" ry="10" fill="#c9922a"/>
-            <ellipse cx="24" cy="26" rx="14" ry="8" fill="#e8b84b"/>
-            <path d="M16 18 Q24 10 32 18" stroke="#c9922a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <text x="15" y="33" font-size="9" font-weight="bold" fill="#3b1f0e" font-family="serif">YB</text>
-          </svg>
-        </div>
-        <div>
-          <span class="brand-name" style="color:#fff">YumYum</span>
-          <span class="brand-sub d-block" style="color:rgba(255,255,255,0.7)">Bakery</span>
-        </div>
-      </div>
-    </a>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarMain">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item"><a class="nav-link" href="/menu">MENU</a></li>
-        <li class="nav-item"><a class="nav-link" href="/store">STORE</a></li>
-        <li class="nav-item"><a class="nav-link" href="/about_us">ABOUT US</a></li>
-        <li class="nav-item"><a class="nav-link" href="/history">HISTORY</a></li>
-      </ul>
-      
-<div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
-
-    <a href="/cart" class="btn-cart-navbar">
-      <img src="/icon/keranjang.png" alt="Cart">
-        <span>CART</span>
-        
-    </a>
-
-    <% if (typeof user !== "undefined" && user) { %>
-
-        <a href="/logout" class="btn-login-navbar">
-            LOGOUT
-        </a>
-
-    <% } else { %>
-
-        <a href="/login" class="btn-login-navbar">
-            LOGIN/SIGN UP
-        </a>
-
-    <% } %>
-
-</div>
-
-    </div>
-  </div>
-</nav>
-
-<div class="hero-wrapper">
-  <div class="hero">
-    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <div class="hero-slide">
-            <img class="hero-slide-img" src="/gambar/banner_1.png" alt="Promo YumYum 1"
-                 onerror="this.src='https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1200'">
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid px-0">
+      <a class="navbar-brand ms-0" href="/">
+        <img src="/logo/logo_nama.png" alt="YumYum Bakery" class="nav-logo-img"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+        <div class="nav-logo-fallback" style="display:none;">
+          <div class="logo-box">
+            <svg viewBox="0 0 48 48" fill="none" width="32" height="32">
+              <ellipse cx="24" cy="28" rx="16" ry="10" fill="#c9922a" />
+              <ellipse cx="24" cy="26" rx="14" ry="8" fill="#e8b84b" />
+              <path d="M16 18 Q24 10 32 18" stroke="#c9922a" stroke-width="2.5" fill="none" stroke-linecap="round" />
+              <text x="15" y="33" font-size="9" font-weight="bold" fill="#3b1f0e" font-family="serif">YB</text>
+            </svg>
+          </div>
+          <div>
+            <span class="brand-name" style="color:#fff">YumYum</span>
+            <span class="brand-sub d-block" style="color:rgba(255,255,255,0.7)">Bakery</span>
           </div>
         </div>
-        <div class="carousel-item">
-          <div class="hero-slide">
-            <img class="hero-slide-img" src="/gambar/banner_2.png" alt="Promo YumYum 2"
-                 onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1200'">
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="hero-slide">
-            <img class="hero-slide-img" src="/gambar/banner_3.png" alt="Promo YumYum 3"
-                 onerror="this.src='https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=1200'">
-          </div>
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-        <span class="visually-hidden">Previous</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+        <span class="navbar-toggler-icon"></span>
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-        <span class="visually-hidden">Next</span>
-      </button>
+
+      <div class="collapse navbar-collapse" id="navbarMain">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link" href="/menu">MENU</a></li>
+          <li class="nav-item"><a class="nav-link" href="/store">STORE</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about_us">ABOUT US</a></li>
+          <li class="nav-item"><a class="nav-link" href="/history">HISTORY</a></li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
+
+          <a href="/cart" class="btn-cart-navbar">
+            <span>CART</span>
+            <img src="/icon/keranjang.png" alt="Cart">
+          </a>
+
+          <% if (typeof user !=="undefined" && user) { %>
+
+            <details class="user-navbar-menu">
+              <summary class="btn-user-navbar">
+                <%= user.username %>
+              </summary>
+
+              <div class="user-navbar-dropdown">
+                <a href="/logout">
+                  LOGOUT
+                </a>
+              </div>
+            </details>
+
+            <% } else { %>
+
+              <a href="/login" class="btn-login-navbar">
+                LOGIN/SIGN UP
+              </a>
+
+              <% } %>
+
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero-wrapper">
+    <div class="hero">
+      <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="hero-slide">
+              <img class="hero-slide-img" src="/gambar/banner_1.png" alt="Promo YumYum 1"
+                onerror="this.src='https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1200'">
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="hero-slide">
+              <img class="hero-slide-img" src="/gambar/banner_2.png" alt="Promo YumYum 2"
+                onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1200'">
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="hero-slide">
+              <img class="hero-slide-img" src="/gambar/banner_3.png" alt="Promo YumYum 3"
+                onerror="this.src='https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=1200'">
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
-<div id="menu-section">
-  <div class="section-heading">
-    <p class="celebrate">Celebrate Every Moment</p>
-    <h2>BUAT MOMEN SPESIAL MU LEBIH MANIS</h2>
-    <p class="sub-title">- YUMMY BAKERY -</p>
-  </div>
-
-  <div class="products-grid-section">
-    <div class="row g-4" id="productsGrid">
-      </div>
-  </div>
-
-  <div class="see-more-wrap" id="seeMoreWrap" style="display:none;">
-    <a href="/menu" class="btn-see-more">SEE MORE</a>
-  </div>
-
-<div class="reviews-section">
-  <div class="reviews-heading"><h2>REVIEW</h2></div>
-  <div class="row g-4 justify-content-center">
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="review-wrapper">
-        <div class="reviewer-profile"><img src="/gambar/muhadist.jpeg" onerror="this.src='https://ui-avatars.com/api/?name=Muhadist&background=a99d96&color=fff&size=140'"/><div class="stars">★★★★★</div><span class="reviewer-name">Muhadist</span></div>
-        <div class="review-box"><p>Tempatnya nyaman banget, Pastrynya enak-enak pokoknya RECOMMENDED!</p></div>
-      </div>
+  <div id="menu-section">
+    <div class="section-heading">
+      <p class="celebrate">Celebrate Every Moment</p>
+      <h2>BUAT MOMEN SPESIAL MU LEBIH MANIS</h2>
+      <p class="sub-title">- YUMMY BAKERY -</p>
     </div>
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="review-wrapper">
-        <div class="reviewer-profile"><img src="/gambar/caroline.jpeg" onerror="this.src='https://ui-avatars.com/api/?name=Caroline&background=a99d96&color=fff&size=140'"/><div class="stars">★★★★☆</div><span class="reviewer-name">Caroline</span></div>
-        <div class="review-box"><p>Salah satu bakery favorit aku! Varian rotinya banyak dan semuanya enak. Recommended banget!</p></div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="review-wrapper">
-        <div class="reviewer-profile"><img src="/gambar/rara.jpeg" onerror="this.src='https://ui-avatars.com/api/?name=Zahara&background=a99d96&color=fff&size=140'"/><div class="stars">★★★★★</div><span class="reviewer-name">Zahara</span></div>
-        <div class="review-box"><p>Gila sih ini enak banget 😭 croissant-nya flaky parah, wajib coba!</p></div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="review-wrapper">
-        <div class="reviewer-profile"><img src="/gambar/fhilip.jpeg" onerror="this.src='https://ui-avatars.com/api/?name=Fhilip&background=a99d96&color=fff&size=140'"/><div class="stars">★★★★☆</div><span class="reviewer-name">Fhilip</span></div>
-        <div class="review-box"><p>Pastry-nya enak, nggak terlalu manis dan teksturnya pas. Cocok buat teman ngopi ☕</p></div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<footer>
-  <div class="row g-4 mb-4">
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <div class="d-flex flex-column align-items-start">
-        <img src="/logo/logo_aja.png" alt="YumYum Bakery Logo" class="footer-logo-main"
-             onerror="this.src='https://via.placeholder.com/200x100?text=YumYum+Logo'"/>
-        <img src="/icon/icon halal.png" alt="Halal" class="footer-halal"
-             onerror="this.src='https://via.placeholder.com/80?text=Halal'"/>
+    <div class="products-grid-section">
+      <div class="row g-4" id="productsGrid">
       </div>
     </div>
 
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <h4>YUMYUM BAKERY</h4>
-      <ul>
-        <li><a href="/about_us">About Us</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-      <div class="mt-sponsor">
-        <h4>SPONSOR</h4>
-        <div class="row g-2">
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/anchor.png" alt="Anchor" onerror="this.src='https://via.placeholder.com/100x40?text=Anchor'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/indofood.png" alt="Indofood" onerror="this.src='https://via.placeholder.com/100x40?text=Indofood'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/gofood.png" alt="GoFood" onerror="this.src='https://via.placeholder.com/100x40?text=GoFood'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/tokped.png" alt="Tokopedia" onerror="this.src='https://via.placeholder.com/100x40?text=Tokopedia'"></div></div>
+    <div class="see-more-wrap" id="seeMoreWrap" style="display:none;">
+      <a href="/menu" class="btn-see-more">SEE MORE</a>
+    </div>
+
+    <div class="reviews-section">
+      <div class="reviews-heading">
+        <h2>REVIEW</h2>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="review-wrapper">
+            <div class="reviewer-profile"><img src="/gambar/muhadist.jpeg"
+                onerror="this.src='https://ui-avatars.com/api/?name=Muhadist&background=a99d96&color=fff&size=140'" />
+              <div class="stars">★★★★★</div><span class="reviewer-name">Muhadist</span>
+            </div>
+            <div class="review-box">
+              <p>Tempatnya nyaman banget, Pastrynya enak-enak pokoknya RECOMMENDED!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="review-wrapper">
+            <div class="reviewer-profile"><img src="/gambar/caroline.jpeg"
+                onerror="this.src='https://ui-avatars.com/api/?name=Caroline&background=a99d96&color=fff&size=140'" />
+              <div class="stars">★★★★☆</div><span class="reviewer-name">Caroline</span>
+            </div>
+            <div class="review-box">
+              <p>Salah satu bakery favorit aku! Varian rotinya banyak dan semuanya enak. Recommended banget!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="review-wrapper">
+            <div class="reviewer-profile"><img src="/gambar/rara.jpeg"
+                onerror="this.src='https://ui-avatars.com/api/?name=Zahara&background=a99d96&color=fff&size=140'" />
+              <div class="stars">★★★★★</div><span class="reviewer-name">Zahara</span>
+            </div>
+            <div class="review-box">
+              <p>Gila sih ini enak banget 😭 croissant-nya flaky parah, wajib coba!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="review-wrapper">
+            <div class="reviewer-profile"><img src="/gambar/fhilip.jpeg"
+                onerror="this.src='https://ui-avatars.com/api/?name=Fhilip&background=a99d96&color=fff&size=140'" />
+              <div class="stars">★★★★☆</div><span class="reviewer-name">Fhilip</span>
+            </div>
+            <div class="review-box">
+              <p>Pastry-nya enak, nggak terlalu manis dan teksturnya pas. Cocok buat teman ngopi ☕</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="col-lg-2 col-md-4 col-sm-12 mt-4 mt-md-0">
-      <h4>HELP CENTER</h4>
-      <ul>
-        <li><a href="/privacy">Privacy Policy</a></li>
-      </ul>
-    </div>
+    <footer>
+      <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="d-flex flex-column align-items-start">
+            <img src="/logo/logo_aja.png" alt="YumYum Bakery Logo" class="footer-logo-main"
+              onerror="this.src='https://via.placeholder.com/200x100?text=YumYum+Logo'" />
+            <img src="/icon/icon halal.png" alt="Halal" class="footer-halal"
+              onerror="this.src='https://via.placeholder.com/80?text=Halal'" />
+          </div>
+        </div>
 
-    <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
-      <h4>CONTACT US</h4>
-      <div class="contact-item">
-        <img src="/icon/tlp.png" alt="phone" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📞</span>'" /> 889070999
-      </div>
-      <div class="contact-item">
-        <img src="/icon/wa.png" alt="whatsapp" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📱</span>'" /> +62 887 1447 0009
-      </div>
-      <div class="contact-item">
-        <img src="/icon/ig.png" alt="instagram" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📸</span>'" /> @YumYum_Bakery
-      </div>
-      <div class="mt-pengaduan">
-        <h4>LAYANAN PENGADUAN</h4>
-        <div class="complaint-section">
-          <p>PT Matahari Bulan Bintang Angkasa</p>
-          <p>Email : marketing@yumyum.com</p>
-          <p>0867 0000 1222 (WhatsApp)</p>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <h4>YUMYUM BAKERY</h4>
+          <ul>
+            <li><a href="/about_us">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+          <div class="mt-sponsor">
+            <h4>SPONSOR</h4>
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="sponsor-logo-box"><img src="/logo/anchor.png" alt="Anchor"
+                    onerror="this.src='https://via.placeholder.com/100x40?text=Anchor'"></div>
+              </div>
+              <div class="col-6">
+                <div class="sponsor-logo-box"><img src="/logo/indofood.png" alt="Indofood"
+                    onerror="this.src='https://via.placeholder.com/100x40?text=Indofood'"></div>
+              </div>
+              <div class="col-6">
+                <div class="sponsor-logo-box"><img src="/logo/gofood.png" alt="GoFood"
+                    onerror="this.src='https://via.placeholder.com/100x40?text=GoFood'"></div>
+              </div>
+              <div class="col-6">
+                <div class="sponsor-logo-box"><img src="/logo/tokped.png" alt="Tokopedia"
+                    onerror="this.src='https://via.placeholder.com/100x40?text=Tokopedia'"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-sm-12 mt-4 mt-md-0">
+          <h4>HELP CENTER</h4>
+          <ul>
+            <li><a href="/privacy">Privacy Policy</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
+          <h4>CONTACT US</h4>
+          <div class="contact-item">
+            <img src="/icon/tlp.png" alt="phone" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📞</span>'" />
+            889070999
+          </div>
+          <div class="contact-item">
+            <img src="/icon/wa.png" alt="whatsapp"
+              onerror="this.outerHTML='<span style=\'font-size:20px;\'>📱</span>'" /> +62 887 1447 0009
+          </div>
+          <div class="contact-item">
+            <img src="/icon/ig.png" alt="instagram"
+              onerror="this.outerHTML='<span style=\'font-size:20px;\'>📸</span>'" /> @YumYum_Bakery
+          </div>
+          <div class="mt-pengaduan">
+            <h4>LAYANAN PENGADUAN</h4>
+            <div class="complaint-section">
+              <p>PT Matahari Bulan Bintang Angkasa</p>
+              <p>Email : marketing@yumyum.com</p>
+              <p>0867 0000 1222 (WhatsApp)</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <hr class="footer-divider"/>
-  <p class="footer-bottom">© 2024 YumYum Bakery. All rights reserved.</p>
-</footer>
+      <hr class="footer-divider" />
+      <p class="footer-bottom">© 2024 YumYum Bakery. All rights reserved.</p>
+    </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  const API_BASE = 'http://localhost:3000/api';
-  
-  
-  const HOME_MENU_TARGETS = [
-    'Birthday cake', 
-    'Caramel Macchiato', 
-    'Macaron', 
-    'Strawberry Danish', 
-    'Cookies', 
-    'Strawberry milk'
-  ].map(name => name.toLowerCase());
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const API_BASE = 'http://localhost:3000/api';
 
-  function formatRupiah(num) {
-    return 'Rp ' + Number(num).toLocaleString('id-ID');
-  }
 
-  function renderSkeletons() {
-    const grid = document.getElementById('productsGrid');
-    grid.innerHTML = Array(6).fill(`
+      const HOME_MENU_TARGETS = [
+        'Birthday cake',
+        'Caramel Macchiato',
+        'Macaron',
+        'Strawberry Danish',
+        'Cookies',
+        'Strawberry milk'
+      ].map(name => name.toLowerCase());
+
+      function formatRupiah(num) {
+        return 'Rp ' + Number(num).toLocaleString('id-ID');
+      }
+
+      function renderSkeletons() {
+        const grid = document.getElementById('productsGrid');
+        grid.innerHTML = Array(6).fill(`
       <div class="col-lg-4 col-md-6">
         <div class="skeleton-card">
           <div class="skeleton-img"></div>
@@ -246,34 +294,34 @@
         </div>
       </div>
     `).join('');
-  }
+      }
 
-  async function fetchHomePageProducts() {
-    renderSkeletons();
-    try {
-      const res  = await fetch(`${API_BASE}/menu`);
-      const json = await res.json();
+      async function fetchHomePageProducts() {
+        renderSkeletons();
+        try {
+          const res = await fetch(`${API_BASE}/menu`);
+          const json = await res.json();
 
-      if (!json.success) throw new Error(json.message);
+          if (!json.success) throw new Error(json.message);
 
-      
-      const displayProducts = json.data.filter(p => 
-        HOME_MENU_TARGETS.includes(p.name.toLowerCase())
-      );
 
-      renderProducts(displayProducts);
-    } catch (err) {
-      document.getElementById('productsGrid').innerHTML = `
+          const displayProducts = json.data.filter(p =>
+            HOME_MENU_TARGETS.includes(p.name.toLowerCase())
+          );
+
+          renderProducts(displayProducts);
+        } catch (err) {
+          document.getElementById('productsGrid').innerHTML = `
         <div class="col-12 text-center py-5">
           <p>Gagal memuat produk. Pastikan server backend berjalan.</p>
         </div>`;
-    }
-  }
+        }
+      }
 
-  function renderProducts(products) {
-    const grid = document.getElementById('productsGrid');
-    
-    grid.innerHTML = products.map(p => `
+      function renderProducts(products) {
+        const grid = document.getElementById('productsGrid');
+
+        grid.innerHTML = products.map(p => `
       <div class="col-lg-4 col-md-6">
         <div class="product-card">
           <img src="${p.img_url || ''}" alt="${p.name}"
@@ -288,54 +336,55 @@
       </div>
     `).join('');
 
-    
-    document.getElementById('seeMoreWrap').style.display = 'block';
-  }
-  
-  fetchHomePageProducts();
-  
-async function addToCart(productId, event) {
 
-  if (event) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
+        document.getElementById('seeMoreWrap').style.display = 'block';
+      }
 
-  try {
-    const response = await fetch('http://localhost:3000/cart', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product_id: productId, quantity: 1 })
-    });
-    
-    if (response.ok) {
-      alert("Produk berhasil ditambahkan ke keranjang!");
-    } else {
-      alert("Gagal menambahkan produk ke keranjang.");
-    }
-  } catch (error) {
-    console.error("Gagal memproses keranjang:", error);
-  }
-}
+      fetchHomePageProducts();
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-      
-      searchInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          const keyword = this.value.trim();
-          if (keyword) {
-            
-            window.location.href = `/menu?search=${encodeURIComponent(keyword)}`;
+      async function addToCart(productId, event) {
+
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        try {
+          const response = await fetch('http://localhost:3000/cart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ product_id: productId, quantity: 1 })
+          });
+
+          if (response.ok) {
+            alert("Produk berhasil ditambahkan ke keranjang!");
+          } else {
+            alert("Gagal menambahkan produk ke keranjang.");
           }
+        } catch (error) {
+          console.error("Gagal memproses keranjang:", error);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+
+          searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              const keyword = this.value.trim();
+              if (keyword) {
+
+                window.location.href = `/menu?search=${encodeURIComponent(keyword)}`;
+              }
+            }
+          });
         }
       });
-    }
-  });
 
-</script>
+    </script>
 
 </body>
+
 </html>
