@@ -59,11 +59,7 @@ const getAllProducts = async (req, res) => {
       ],
     });
 
-    res.status(200).json({
-      success: true,
-      total: products.length,
-      data: products,
-    });
+    return res.render("user/menu")
   } catch (err) {
     res.status(500).json({
       success: false,
