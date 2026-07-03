@@ -1,34 +1,45 @@
 import bcrypt from "bcryptjs";
 import User from "../../models/user.js";
 
-export const showRegister = (req, res) => {
-  const message = req.session.message || "";
-  req.session.message = "";
+const redirectWithMessage = (res, path, message) => {
+  return res.redirect(`${path}?message=${encodeURIComponent(message)}`);
+};
 
+export const showRegister = (req, res) => {
   res.render("user/register", {
     title: "Register",
-    message,
+    message: req.query.message || "",
   });
 };
 
 export const register = async (req, res) => {
   try {
+    console.log("REGISTER BODY:", req.body);
+
     const { name, username, email, password } = req.body;
 
     if (!name || !username || !email || !password) {
-      req.session.message = "Semua field harus diisi!";
-      return res.redirect("/register");
+      return redirectWithMessage(res, "/register", "Semua field harus diisi!");
     }
 
-    const existingUser = await User.findOne({
+    const existingEmail = await User.findOne({
       where: {
         email: email,
       },
     });
 
-    if (existingUser) {
-      req.session.message = "Email sudah pernah terdaftar!";
-      return res.redirect("/register");
+    if (existingEmail) {
+      return redirectWithMessage(res, "/register", "Email sudah pernah terdaftar!");
+    }
+
+    const existingUsername = await User.findOne({
+      where: {
+        username: username,
+      },
+    });
+
+    if (existingUsername) {
+      return redirectWithMessage(res, "/register", "Username sudah pernah digunakan!");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -40,32 +51,28 @@ export const register = async (req, res) => {
       password: hashedPassword,
     });
 
-    req.session.message = "Akun berhasil terdaftar!";
-    res.redirect("/login");
+    return redirectWithMessage(res, "/login", "Akun berhasil terdaftar. Silakan login.");
   } catch (error) {
-    console.log(error);
-    req.session.message = "Terjadi kesalahan saat register.";
-    res.redirect("/register");
+    console.log("REGISTER ERROR:", error);
+    return redirectWithMessage(res, "/register", "Terjadi kesalahan saat register.");
   }
 };
 
 export const showLogin = (req, res) => {
-  const message = req.session.message || "";
-  req.session.message = "";
-
   res.render("user/login", {
     title: "Login",
-    message,
+    message: req.query.message || "",
   });
 };
 
 export const login = async (req, res) => {
   try {
+    console.log("LOGIN BODY:", req.body);
+
     const { email, password } = req.body;
 
     if (!email || !password) {
-      req.session.message = "Semua field harus diisi!";
-      return res.redirect("/login");
+      return redirectWithMessage(res, "/login", "Email dan password harus diisi!");
     }
 
     const user = await User.findOne({
@@ -75,15 +82,13 @@ export const login = async (req, res) => {
     });
 
     if (!user) {
-      req.session.message = "Email atau password salah!";
-      return res.redirect("/login");
+      return redirectWithMessage(res, "/login", "Email atau password salah!");
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      req.session.message = "Email atau password salah!";
-      return res.redirect("/login");
+      return redirectWithMessage(res, "/login", "Email atau password salah!");
     }
 
     req.session.user = {
@@ -93,16 +98,15 @@ export const login = async (req, res) => {
       email: user.email,
     };
 
-    res.redirect("/");
+    return res.redirect("/");
   } catch (error) {
-    console.log(error);
-    req.session.message = "Terjadi kesalahan saat login.";
-    res.redirect("/login");
+    console.log("LOGIN ERROR:", error);
+    return redirectWithMessage(res, "/login", "Terjadi kesalahan saat login.");
   }
 };
 
 export const logout = (req, res) => {
   req.session.destroy(() => {
-    res.redirect("/login");
+    res.redirect("/login?message=Logout%20berhasil.");
   });
 };
