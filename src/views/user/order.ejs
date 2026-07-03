@@ -4,30 +4,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Order Detail — YumYum Bakery</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&display=swap"
     rel="stylesheet" />
-    <link rel="stylesheet" href="/public/css/order.css">
+
+  <link rel="stylesheet" href="/css/order.css">
 </head>
 
 <body>
 
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container-fluid px-0">
+
       <a class="navbar-brand ms-0" href="/">
         <img src="/logo/logo_nama.png" alt="YumYum Bakery" class="nav-logo-img"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+
         <div class="nav-logo-fallback" style="display:none;">
           <div class="logo-box">
             <svg viewBox="0 0 48 48" fill="none" width="32" height="32">
               <ellipse cx="24" cy="28" rx="16" ry="10" fill="#c9922a" />
               <ellipse cx="24" cy="26" rx="14" ry="8" fill="#e8b84b" />
-              <path d="M16 18 Q24 10 32 18" stroke="#c9922a" stroke-width="2.5" fill="none" stroke-linecap="round" />
+              <path d="M16 18 Q24 10 32 18" stroke="#c9922a" stroke-width="2.5" fill="none"
+                stroke-linecap="round" />
               <text x="15" y="33" font-size="9" font-weight="bold" fill="#3b1f0e" font-family="serif">YB</text>
             </svg>
           </div>
+
           <div>
             <span class="brand-name" style="color:#fff">YumYum</span>
             <span class="brand-sub d-block" style="color:rgba(255,255,255,0.7)">Bakery</span>
@@ -40,41 +48,64 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarMain">
+
         <ul class="navbar-nav mx-auto">
           <li class="nav-item"><a class="nav-link" href="/menu">MENU</a></li>
           <li class="nav-item"><a class="nav-link" href="/store">STORE</a></li>
           <li class="nav-item"><a class="nav-link" href="/about_us">ABOUT US</a></li>
           <li class="nav-item"><a class="nav-link" href="/history">HISTORY</a></li>
         </ul>
+
         <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
+
           <a href="/cart" class="btn-cart">
-            <img src="/icon/keranjang.png" alt="Cart"> CART
+            <img src="/icon/keranjang.png" alt="Cart">
+            CART
             <span class="cart-badge" id="cartBadge">0</span>
           </a>
+
         </div>
+
       </div>
     </div>
   </nav>
 
   <div class="container order-container">
-    <div id="loader" class="text-center py-5">
-      <div class="spinner-border"></div>
-    </div>
 
-    <div id="content" class="row align-items-center d-none">
+    <div class="row align-items-center">
+
       <div class="col-md-5">
-        <img id="p-img" src="" class="product-img" alt="Product">
+        <img
+          src="<%= product.img_url %>"
+          class="product-img"
+          alt="<%= product.name %>">
       </div>
+
       <div class="col-md-7 ps-md-5">
+
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/menu">Menu</a></li>
-            <li class="breadcrumb-item active" id="p-cat">Category</li>
+            <li class="breadcrumb-item">
+              <a href="/menu">Menu</a>
+            </li>
+
+            <li class="breadcrumb-item active">
+              <%= product.Product_SubCategory ? product.Product_SubCategory.name : "Category" %>
+            </li>
           </ol>
         </nav>
-        <h1 id="p-name" class="fw-bold" style="font-family: 'Playfair Display';">Nama Menu</h1>
-        <p id="p-desc" class="text-muted">Deskripsi produk...</p>
-        <h3 id="p-price" class="fw-bold text-brown mb-4">Rp 0</h3>
+
+        <h1 class="fw-bold" style="font-family: 'Playfair Display';">
+          <%= product.name %>
+        </h1>
+
+        <p class="text-muted">
+          <%= product.Product_ProductDetail ? product.Product_ProductDetail.description : "Freshly baked everyday." %>
+        </p>
+
+        <h3 class="fw-bold text-brown mb-4">
+          Rp <%= Number(product.price).toLocaleString("id-ID") %>
+        </h3>
 
         <div class="d-flex align-items-center gap-3 mb-4">
           <div class="qty-box">
@@ -85,124 +116,137 @@
         </div>
 
         <div class="d-flex gap-2">
-          <button class="btn-save" onclick="saveToCart()">Simpan ke Keranjang</button>
+          <button class="btn-save" onclick="saveToCart()">
+            Simpan ke Keranjang
+          </button>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="modal fade" id="receiptModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content p-4">
-        <div class="text-center">
-          <h4 class="fw-bold">YumYum Bakery</h4>
-          <p class="text-muted small">Struk Pembelian Terkonfirmasi</p>
-          <hr style="border-top: 2px dashed #bbb;">
-        </div>
-        <div class="d-flex justify-content-between"><span id="r-item">Item x1</span><span id="r-price">Rp 0</span></div>
-        <div class="d-flex justify-content-between fw-bold mt-3"><span>TOTAL</span><span id="r-total">Rp 0</span></div>
-        <button class="btn btn-dark w-100 mt-4 rounded-pill" onclick="location.href='/'">Kembali ke Beranda</button>
       </div>
+
     </div>
+
   </div>
 
   <footer>
-  <div class="row g-4 mb-4">
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <div class="d-flex flex-column align-items-start">
-        <img src="/logo/logo_aja.png" alt="YumYum Bakery Logo" class="footer-logo-main"
-             onerror="this.src='https://via.placeholder.com/200x100?text=YumYum+Logo'"/>
-        <img src="/icon/icon halal.png" alt="Halal" class="footer-halal"
-             onerror="this.src='https://via.placeholder.com/80?text=Halal'"/>
-      </div>
-    </div>
+    <div class="row g-4 mb-4">
 
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <h4>YUMYUM BAKERY</h4>
-      <ul>
-        <li><a href="/about_us">About Us</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-      <div class="mt-sponsor">
-        <h4>SPONSOR</h4>
-        <div class="row g-2">
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/anchor.png" alt="Anchor" onerror="this.src='https://via.placeholder.com/100x40?text=Anchor'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/indofood.png" alt="Indofood" onerror="this.src='https://via.placeholder.com/100x40?text=Indofood'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/gofood.png" alt="GoFood" onerror="this.src='https://via.placeholder.com/100x40?text=GoFood'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/tokped.png" alt="Tokopedia" onerror="this.src='https://via.placeholder.com/100x40?text=Tokopedia'"></div></div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="d-flex flex-column align-items-start">
+          <img src="/logo/logo_aja.png" alt="YumYum Bakery Logo" class="footer-logo-main"
+            onerror="this.src='https://via.placeholder.com/200x100?text=YumYum+Logo'" />
+
+          <img src="/icon/icon halal.png" alt="Halal" class="footer-halal"
+            onerror="this.src='https://via.placeholder.com/80?text=Halal'" />
         </div>
       </div>
-    </div>
 
-    <div class="col-lg-2 col-md-4 col-sm-12 mt-4 mt-md-0">
-      <h4>HELP CENTER</h4>
-      <ul>
-        <li><a href="/privacy">Privacy Policy</a></li>
-      </ul>
-    </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <h4>YUMYUM BAKERY</h4>
 
-    <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
-      <h4>CONTACT US</h4>
-      <div class="contact-item">
-        <img src="/icon/tlp.png" alt="phone" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📞</span>'" /> 889070999
-      </div>
-      <div class="contact-item">
-        <img src="icon/wa.png" alt="whatsapp" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📱</span>'" /> +62 887 1447 0009
-      </div>
-      <div class="contact-item">
-        <img src="/icon/ig.png" alt="instagram" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📸</span>'" /> @YumYum_Bakery
-      </div>
-      <div class="mt-pengaduan">
-        <h4>LAYANAN PENGADUAN</h4>
-        <div class="complaint-section">
-          <p>PT Matahari Bulan Bintang Angkasa</p>
-          <p>Email : marketing@yumyum.com</p>
-          <p>0867 0000 1222 (WhatsApp)</p>
+        <ul>
+          <li><a href="/about_us">About Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+
+        <div class="mt-sponsor">
+          <h4>SPONSOR</h4>
+
+          <div class="row g-2">
+            <div class="col-6">
+              <div class="sponsor-logo-box">
+                <img src="/logo/anchor.png" alt="Anchor">
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="sponsor-logo-box">
+                <img src="/logo/indofood.png" alt="Indofood">
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="sponsor-logo-box">
+                <img src="/logo/gofood.png" alt="GoFood">
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="sponsor-logo-box">
+                <img src="/logo/tokped.png" alt="Tokopedia">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <div class="col-lg-2 col-md-4 col-sm-12 mt-4 mt-md-0">
+        <h4>HELP CENTER</h4>
+
+        <ul>
+          <li><a href="/privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
+        <h4>CONTACT US</h4>
+
+        <div class="contact-item">
+          <img src="/icon/tlp.png" alt="phone" />
+          889070999
+        </div>
+
+        <div class="contact-item">
+          <img src="/icon/wa.png" alt="whatsapp" />
+          +62 887 1447 0009
+        </div>
+
+        <div class="contact-item">
+          <img src="/icon/ig.png" alt="instagram" />
+          @YumYum_Bakery
+        </div>
+
+        <div class="mt-pengaduan">
+          <h4>LAYANAN PENGADUAN</h4>
+
+          <div class="complaint-section">
+            <p>PT Matahari Bulan Bintang Angkasa</p>
+            <p>Email : marketing@yumyum.com</p>
+            <p>0867 0000 1222 (WhatsApp)</p>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div>
 
-  <hr class="footer-divider"/>
-  <p class="footer-bottom">© 2024 YumYum Bakery. All rights reserved.</p>
+    <hr class="footer-divider" />
 
-</footer>
+    <p class="footer-bottom">
+      © 2024 YumYum Bakery. All rights reserved.
+    </p>
+
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
-    const API_BASE = '';
-    const pathParts = window.location.pathname.split("/");
-    const productId = pathParts[pathParts.length - 1];
-    let product = null;
+    const product = {
+      id: <%= product.id %>,
+      name: "<%= product.name %>",
+      price: <%= Number(product.price) %>,
+      img_url: "<%= product.img_url %>"
+    };
+
     let qty = 1;
 
-    async function loadDetail() {
-      try {
-        const res = await fetch(`${API_BASE}/api/menu/${productId}`);
-        const json = await res.json();
-        if (json.success) {
-          product = json.data;
-          document.getElementById('p-img').src = product.img_url;
-          document.getElementById('p-name').textContent = product.name;
-          document.getElementById('p-cat').textContent = product.sub_category;
-          document.getElementById('p-desc').textContent = product.description || "Freshly baked everyday.";
-          document.getElementById('p-price').textContent = `Rp ${Number(product.price).toLocaleString('id-ID')}`;
-          document.getElementById('loader').classList.add('d-none');
-          document.getElementById('content').classList.remove('d-none');
-        }
-      } catch (e) { alert("Produk gagal dimuat."); }
-    }
-
-    function updateQty(val) {
-      qty = Math.max(1, qty + val);
-      document.getElementById('qty-val').textContent = qty;
+    function updateQty(value) {
+      qty = Math.max(1, qty + value);
+      document.getElementById("qty-val").textContent = qty;
     }
 
     function saveToCart() {
-      let cart = JSON.parse(localStorage.getItem('yumyum_cart')) || [];
+      let cart = JSON.parse(localStorage.getItem("yumyum_cart")) || [];
 
-      // Cek apakah produk yang sama sudah ada di keranjang
-      const existingItemIndex = cart.findIndex(item => item.product_id === product.id);
+      const existingItemIndex = cart.findIndex((item) => item.product_id === product.id);
 
       if (existingItemIndex > -1) {
         cart[existingItemIndex].quantity += qty;
@@ -212,35 +256,18 @@
           name: product.name,
           price: product.price,
           img_url: product.img_url,
-          quantity: qty
+          quantity: qty,
         });
       }
 
-      localStorage.setItem('yumyum_cart', JSON.stringify(cart));
+      localStorage.setItem("yumyum_cart", JSON.stringify(cart));
 
       alert("Berhasil disimpan ke keranjang!");
 
-      window.location.href = '/menu';
+      window.location.href = "/menu";
     }
-
-
-    if (productId) loadDetail();
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const searchInput = document.getElementById('searchInput');
-      if (searchInput) {
-        searchInput.addEventListener('keypress', function (e) {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            const keyword = this.value.trim();
-            if (keyword) {
-              window.location.href = `/menu?search=${encodeURIComponent(keyword)}`;
-            }
-          }
-        });
-      }
-    });
   </script>
+
 </body>
 
 </html>

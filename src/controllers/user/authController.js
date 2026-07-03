@@ -112,7 +112,14 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  req.session.destroy(() => {
-    res.redirect("/login?message=Logout%20berhasil.");
+  req.session.destroy((error) => {
+    if (error) {
+      console.log("LOGOUT ERROR:", error);
+      return res.redirect("/");
+    }
+
+    res.clearCookie("connect.sid");
+
+    return res.redirect("/login?message=Logout%20berhasil.");
   });
 };

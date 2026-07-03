@@ -1,12 +1,11 @@
 import express from "express";
 import * as menuController from "../../controllers/user/menuController.js";
+import { isLoggedIn } from "../../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
 router.get("/menu", menuController.getAllProducts);
 
-router.get("/menu/search", menuController.searchProductByName);
-
-router.get("/menu/:id", menuController.getProductById);
+router.get("/menu/:id", isLoggedIn, menuController.getProductById);
 
 export default router;

@@ -1,249 +1,359 @@
-<% const base = locals.baseUrl ? locals.baseUrl : ''; %>
+
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title><%= locals.pageTitle || 'Menu — YumYum Bakery' %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <title><%= typeof title !== "undefined" ? title : "Menu — YumYum Bakery" %></title>
 
-  <link href="/css/menu.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <link href="/css/menu.css" rel="stylesheet" />
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container-fluid px-0">
-    <a class="navbar-brand ms-0" href="/">
-      <img src="/logo/logo_nama.png" alt="YumYum Bakery" class="nav-logo-img"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-      <div class="nav-logo-fallback" style="display:none;">
-        <div class="logo-box">
-          <svg viewBox="0 0 48 48" fill="none" width="32" height="32">
-            <ellipse cx="24" cy="28" rx="16" ry="10" fill="#c9922a"/>
-            <ellipse cx="24" cy="26" rx="14" ry="8" fill="#e8b84b"/>
-            <path d="M16 18 Q24 10 32 18" stroke="#c9922a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <text x="15" y="33" font-size="9" font-weight="bold" fill="#3b1f0e" font-family="serif">YB</text>
-          </svg>
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid px-0">
+
+      <a class="navbar-brand ms-0" href="/">
+        <img src="/logo/logo_nama.png" alt="YumYum Bakery" class="nav-logo-img"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+
+        <div class="nav-logo-fallback" style="display:none;">
+          <div class="logo-box">
+            <svg viewBox="0 0 48 48" fill="none" width="32" height="32">
+              <ellipse cx="24" cy="28" rx="16" ry="10" fill="#c9922a" />
+              <ellipse cx="24" cy="26" rx="14" ry="8" fill="#e8b84b" />
+              <path d="M16 18 Q24 10 32 18" stroke="#c9922a" stroke-width="2.5" fill="none" stroke-linecap="round" />
+              <text x="15" y="33" font-size="9" font-weight="bold" fill="#3b1f0e" font-family="serif">YB</text>
+            </svg>
+          </div>
+
+          <div>
+            <span class="brand-name" style="color:#fff">YumYum</span>
+            <span class="brand-sub d-block" style="color:rgba(255,255,255,0.7)">Bakery</span>
+          </div>
         </div>
-        <div>
-          <span class="brand-name" style="color:#fff">YumYum</span>
-          <span class="brand-sub d-block" style="color:rgba(255,255,255,0.7)">Bakery</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarMain">
+
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/menu">MENU</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/store">STORE</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/about_us">ABOUT US</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/history">HISTORY</a>
+          </li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
+
+          <a href="/cart" class="btn-cart-navbar">
+            <span>CART</span>
+            <img src="/icon/keranjang.png" alt="Cart">
+          </a>
+
+          <% if (typeof user !== "undefined" && user) { %>
+
+            <details class="user-navbar-menu">
+              <summary class="btn-user-navbar">
+                <%= user.username %>
+              </summary>
+
+              <div class="user-navbar-dropdown">
+                <a href="/logout">LOGOUT</a>
+              </div>
+            </details>
+
+          <% } else { %>
+
+            <a href="/login" class="btn-login-navbar">
+              LOGIN/SIGN UP
+            </a>
+
+          <% } %>
+
         </div>
+
       </div>
-    </a>
+    </div>
+  </nav>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <div class="page-header">
+    <div class="breadcrumb-row">
+      <a href="/">Home</a>
+      <span>&gt;</span>
+      <span class="current">Menu</span>
+    </div>
 
-    <div class="collapse navbar-collapse" id="navbarMain">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item"><a class="nav-link" href="/">MENU</a></li>
-        <li class="nav-item"><a class="nav-link" href="/store">STORE</a></li>
-        <li class="nav-item"><a class="nav-link" href="about_us">ABOUT US</a></li>
-        <li class="nav-item"><a class="nav-link" href="/history">HISTORY</a></li>
-      </ul>
-      <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
-
-    <a href="/cart" class="btn-cart-navbar">
-        <span>CART</span>
-        <img src="/icon/keranjang.png" alt="Cart">
-    </a>
-
-    <% if (typeof user !== "undefined" && user) { %>
-
-        <a href="/logout" class="btn-login-navbar">
-            LOGOUT
-        </a>
-
-    <% } else { %>
-
-        <a href="/login" class="btn-login-navbar">
-            LOGIN/SIGN UP
-        </a>
-
-    <% } %>
-
-</div>
+    <div class="page-title-wrap">
+      <span class="page-title">BUAT MOMEN SPESIAL MU LEBIH MANIS</span>
     </div>
   </div>
-</nav>
 
-<div class="page-header">
-  <div class="breadcrumb-row"><a href="/">Home</a> <span>&gt;</span> <span class="current">Menu</span></div>
-  <div class="page-title-wrap"><span class="page-title">BUAT MOMEN SPESIAL MU LEBIH MANIS</span></div>
-</div>
+  <div class="category-overview-container">
 
-<div class="category-overview-container">
-  <div class="cat-column">
-    <button class="cat-btn" onclick="scrollToSection('food')">FOOD</button>
-    <div id="foodSubcatGrid" class="subcat-grid">
-      <% foodCategories.forEach(cat => { %>
-        <div class="subcat-card" onclick="scrollToSection('<%= cat.slug %>')">
-          <img src="<%= cat.img %>" alt="<%= cat.name %>" />
-          <div class="subcat-card-label"><%= cat.displayName %></div>
-        </div>
-      <% }) %>
-    </div>
-  </div>
-  <div class="cat-divider-wrap"><span class="cat-divider-text">Categories</span><div class="cat-divider-line"></div></div>
-  <div class="cat-column">
-    <button class="cat-btn" onclick="scrollToSection('drink')">DRINK</button>
-    <div id="drinkSubcatGrid" class="subcat-grid">
-      <% drinkCategories.forEach(cat => { %>
-        <div class="subcat-card" onclick="scrollToSection('<%= cat.slug %>')">
-          <img src="<%= cat.img %>" alt="<%= cat.name %>" />
-          <div class="subcat-card-label"><%= cat.displayName %></div>
-        </div>
-      <% }) %>
-    </div>
-  </div>
-</div>
+    <div class="cat-column">
+      <button class="cat-btn" onclick="scrollToSection('food')">FOOD</button>
 
-<div class="menu-content" id="menuContent">
-  <div id="menuSections">
+      <div id="foodSubcatGrid" class="subcat-grid">
 
-    <% if (sections && sections.length) { %>
+        <% if (typeof foodCategories !== "undefined" && foodCategories.length) { %>
 
-      <% sections.forEach((section, idx) => { %>
+          <% foodCategories.forEach((cat) => { %>
 
-        <% if (idx > 0) { %>
-          <div class="section-divider-line"></div>
+            <div class="subcat-card" onclick="scrollToSection('<%= cat.slug %>')">
+              <img src="<%= cat.img %>" alt="<%= cat.name %>" />
+              <div class="subcat-card-label">
+                <%= cat.displayName %>
+              </div>
+            </div>
+
+          <% }) %>
+
         <% } %>
 
-        <div class="product-section section-anchor" id="section-<%= section.slug %>">
+      </div>
+    </div>
 
-          <% if (section.isFirstFood) { %><span id="anchor-food"></span><% } %>
-          <% if (section.isFirstDrink) { %><span id="anchor-drink"></span><% } %>
+    <div class="cat-divider-wrap">
+      <span class="cat-divider-text">Categories</span>
+      <div class="cat-divider-line"></div>
+    </div>
 
-          <div class="section-title-wrap">
-            <div class="section-title-line"></div>
-            <span class="section-title-text"><%= section.displayName %></span>
-            <div class="section-title-line"></div>
-          </div>
+    <div class="cat-column">
+      <button class="cat-btn" onclick="scrollToSection('drink')">DRINK</button>
 
-          <div class="product-row">
+      <div id="drinkSubcatGrid" class="subcat-grid">
 
-            <% section.products.forEach(p => { %>
+        <% if (typeof drinkCategories !== "undefined" && drinkCategories.length) { %>
 
-              <div class="menu-card">
-                <div class="menu-card-img-wrap">
-                  <img src="<%= p.img_url %>" alt="<%= p.name %>" />
-                  <a href="/menu/<%= p.id %>" class="btn-add-overlay">Add To Cart</a>
-                </div>
-                <div class="menu-card-name"><%= p.name %></div>
-                <div class="menu-card-price">Rp.<%= new Intl.NumberFormat('id-ID').format(p.price) %></div>
+          <% drinkCategories.forEach((cat) => { %>
+
+            <div class="subcat-card" onclick="scrollToSection('<%= cat.slug %>')">
+              <img src="<%= cat.img %>" alt="<%= cat.name %>" />
+              <div class="subcat-card-label">
+                <%= cat.displayName %>
               </div>
+            </div>
 
-            <% }) %>
+          <% }) %>
+
+        <% } %>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="menu-content" id="menuContent">
+    <div id="menuSections">
+
+      <% if (typeof sections !== "undefined" && sections.length) { %>
+
+        <% sections.forEach((section, idx) => { %>
+
+          <% if (idx > 0) { %>
+            <div class="section-divider-line"></div>
+          <% } %>
+
+          <div class="product-section section-anchor" id="section-<%= section.slug %>">
+
+            <% if (section.isFirstFood) { %>
+              <span id="anchor-food"></span>
+            <% } %>
+
+            <% if (section.isFirstDrink) { %>
+              <span id="anchor-drink"></span>
+            <% } %>
+
+            <div class="section-title-wrap">
+              <div class="section-title-line"></div>
+
+              <span class="section-title-text">
+                <%= section.displayName %>
+              </span>
+
+              <div class="section-title-line"></div>
+            </div>
+
+            <div class="product-row">
+
+              <% section.products.forEach((product) => { %>
+
+                <div class="menu-card">
+
+                  <div class="menu-card-img-wrap">
+                    <img src="<%= product.img_url %>" alt="<%= product.name %>" />
+
+                    <a href="/menu/<%= product.id %>" class="btn-add-overlay">
+                      Add To Cart
+                    </a>
+                  </div>
+
+                  <div class="menu-card-name">
+                    <%= product.name %>
+                  </div>
+
+                  <div class="menu-card-price">
+                    Rp.<%= Number(product.price).toLocaleString("id-ID") %>
+                  </div>
+
+                </div>
+
+              <% }) %>
+
+            </div>
 
           </div>
 
+        <% }) %>
+
+      <% } else { %>
+
+        <div style="text-align:center; padding:60px 0; color:#999;">
+          Belum ada menu tersedia.
         </div>
 
-      <% }) %>
+      <% } %>
 
-    <% } else { %>
-
-      <div style="text-align:center; padding:60px 0; color:#999;">Belum ada menu tersedia.</div>
-
-    <% } %>
-
-  </div>
-</div>
-
-<footer>
-  <div class="row g-4 mb-4">
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <div class="d-flex flex-column align-items-start">
-        <img src="/logo/logo_aja.png" alt="YumYum Bakery Logo" class="footer-logo-main"
-             onerror="this.src='https://via.placeholder.com/200x100?text=YumYum+Logo'"/>
-        <img src="/icon/icon halal.png" alt="Halal" class="footer-halal"
-             onerror="this.src='https://via.placeholder.com/80?text=Halal'"/>
-      </div>
-    </div>
-
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <h4>YUMYUM BAKERY</h4>
-      <ul>
-        <li><a href="about_us">About Us</a></li>
-        <li><a href="commentForm">Contact</a></li>
-      </ul>
-      <div class="mt-sponsor">
-        <h4>SPONSOR</h4>
-        <div class="row g-2">
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/anchor.png" alt="Anchor" onerror="this.src='https://via.placeholder.com/100x40?text=Anchor'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/indofood.png" alt="Indofood" onerror="this.src='https://via.placeholder.com/100x40?text=Indofood'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/gofood.png" alt="GoFood" onerror="this.src='https://via.placeholder.com/100x40?text=GoFood'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/tokped.png" alt="Tokopedia" onerror="this.src='https://via.placeholder.com/100x40?text=Tokopedia'"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-lg-2 col-md-4 col-sm-12 mt-4 mt-md-0">
-      <h4>HELP CENTER</h4>
-      <ul>
-        <li><a href="privacy">Privacy Policy</a></li>
-      </ul>
-    </div>
-
-    <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
-      <h4>CONTACT US</h4>
-      <div class="contact-item">
-        <img src="/icon/tlp.png" alt="phone" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📞</span>'" /> 889070999
-      </div>
-      <div class="contact-item">
-        <img src="/icon/wa.png" alt="whatsapp" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📱</span>'" /> +62 887 1447 0009
-      </div>
-      <div class="contact-item">
-        <img src="/icon/ig.png" alt="instagram" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📸</span>'" /> @YumYum_Bakery
-      </div>
-      <div class="mt-pengaduan">
-        <h4>LAYANAN PENGADUAN</h4>
-        <div class="complaint-section">
-          <p>PT Matahari Bulan Bintang Angkasa</p>
-          <p>Email : marketing@yumyum.com</p>
-          <p>0867 0000 1222 (WhatsApp)</p>
-        </div>
-      </div>
     </div>
   </div>
 
-  <hr class="footer-divider"/>
-  <p class="footer-bottom">© 2024 YumYum Bakery. All rights reserved.</p>
-</footer>
+  <footer>
+    <div class="row g-4 mb-4">
 
-<script>
-  function scrollToSection(type) {
-    const target = document.getElementById('section-' + type) || document.getElementById('anchor-' + type);
-    if (target) window.scrollTo({top: target.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth'});
-  }
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="d-flex flex-column align-items-start">
 
-  async function addToCart(productId, event) {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+          <img src="/logo/logo_aja.png" alt="YumYum Bakery Logo" class="footer-logo-main"
+            onerror="this.src='https://via.placeholder.com/200x100?text=YumYum+Logo'" />
 
-    try {
-      const response = await fetch('http://localhost:3000/cart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_id: productId, quantity: 1 })
-      });
-      
-      if (response.ok) {
-        alert("Produk berhasil ditambahkan ke keranjang!");
-      } else {
-        alert("Gagal menambahkan produk ke keranjang.");
+          <img src="/icon/icon halal.png" alt="Halal" class="footer-halal"
+            onerror="this.src='https://via.placeholder.com/80?text=Halal'" />
+
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <h4>YUMYUM BAKERY</h4>
+
+        <ul>
+          <li><a href="/about_us">About Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+
+        <div class="mt-sponsor">
+          <h4>SPONSOR</h4>
+
+          <div class="row g-2">
+
+            <div class="col-6">
+              <div class="sponsor-logo-box">
+                <img src="/logo/anchor.png" alt="Anchor">
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="sponsor-logo-box">
+                <img src="/logo/indofood.png" alt="Indofood">
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="sponsor-logo-box">
+                <img src="/logo/gofood.png" alt="GoFood">
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="sponsor-logo-box">
+                <img src="/logo/tokped.png" alt="Tokopedia">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-4 col-sm-12 mt-4 mt-md-0">
+        <h4>HELP CENTER</h4>
+
+        <ul>
+          <li><a href="/privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
+        <h4>CONTACT US</h4>
+
+        <div class="contact-item">
+          <img src="/icon/tlp.png" alt="phone" />
+          889070999
+        </div>
+
+        <div class="contact-item">
+          <img src="/icon/wa.png" alt="whatsapp" />
+          +62 887 1447 0009
+        </div>
+
+        <div class="contact-item">
+          <img src="/icon/ig.png" alt="instagram" />
+          @YumYum_Bakery
+        </div>
+
+        <div class="mt-pengaduan">
+          <h4>LAYANAN PENGADUAN</h4>
+
+          <div class="complaint-section">
+            <p>PT Matahari Bulan Bintang Angkasa</p>
+            <p>Email : marketing@yumyum.com</p>
+            <p>0867 0000 1222 (WhatsApp)</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="footer-divider" />
+
+    <p class="footer-bottom">
+      © 2024 YumYum Bakery. All rights reserved.
+    </p>
+  </footer>
+
+  <script>
+    function scrollToSection(type) {
+      const target = document.getElementById("section-" + type) || document.getElementById("anchor-" + type);
+
+      if (target) {
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + window.scrollY - 100,
+          behavior: "smooth"
+        });
       }
-    } catch (error) {
-      console.error("Gagal memproses keranjang:", error);
     }
-  }
+  </script>
 
-</script>
 </body>
+
 </html>

@@ -16,11 +16,12 @@ export const createOrder = async (req, res) => {
   const transaction = await sequelize.transaction();
 
   try {
-    const { customer_name, items } = req.body;
+    const { items } = req.body;
 
     const userId = req.session.user.id;
+    const customerName = req.session.user.name || req.session.user.username;
 
-    if (!customer_name || !Array.isArray(items) || items.length === 0) {
+    if (!Array.isArray(items) || items.length === 0) {
       await transaction.rollback();
 
       return res.status(400).json({
@@ -89,10 +90,10 @@ export const createOrder = async (req, res) => {
       {
         user_id: userId,
         order_date: new Date(),
-        customer_name,
+        customer_name: customerName,
         total_amount: totalAmount,
       },
-      { transaction }
+      { transaction },
     );
 
     const orderDetails = orderDetailsData.map((detail) => ({
