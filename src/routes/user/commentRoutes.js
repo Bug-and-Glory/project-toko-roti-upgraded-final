@@ -7,19 +7,16 @@ const router = express.Router();
 // Menampilkan form komentar
 router.get("/comment", isLoggedIn, commentController.showCommentForm);
 
-// Menyimpan komentar
+// Menyimpan komentar baru
 router.post("/comment", isLoggedIn, commentController.createComment);
 
 // Menampilkan semua komentar
 router.get("/showComments", commentController.showComments);
 
-// Menampilkan form edit komentar
-router.get("/comment/:id/edit", isLoggedIn, commentController.showEditComment);
-
-// Menyimpan perubahan komentar
+// Mengubah komentar milik user yang login
 router.post("/comment/:id/edit", isLoggedIn, commentController.updateComment);
 
-// Menghapus komentar
+// Menghapus komentar milik user yang login
 router.post("/comment/:id/delete", isLoggedIn, commentController.deleteComment);
 
 export default router;

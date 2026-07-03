@@ -1,140 +1,149 @@
-import Comment from "../../models/comment.js";
+import { Comment, User } from "../../models/index.js";
 
-const getAllComments = async (req, res) => {
+const redirectWithMessage = (res, path, message) => {
+  return res.redirect(`${path}?message=${encodeURIComponent(message)}`);
+};
+
+// Render halaman form komentar
+export const showCommentForm = (req, res) => {
+  res.render("user/commentForm", {
+    title: "Comment",
+    message: req.query.message || "",
+  });
+};
+
+// Simpan komentar baru
+export const createComment = async (req, res, next) => {
   try {
-    // Ambil semua comment, terbaru duluan
-    const rows = await Comment.findAll({
-      attributes: [["comment_id", "id"], "user_id", "name", "email", "comment", "created_at"],
+    const { comment } = req.body;
+    const userId = req.session.user.id;
+
+    if (!comment || comment.trim() === "") {
+      return redirectWithMessage(res, "/comment", "Komentar tidak boleh kosong.");
+    }
+
+    await Comment.create({
+      user_id: userId,
+      comment: comment.trim(),
+    });
+
+    return redirectWithMessage(
+      res,
+      "/showComments",
+      "Komentar berhasil dikirim."
+    );
+  } catch (error) {
+    console.log("CREATE COMMENT ERROR:", error);
+    next(error);
+  }
+};
+
+// Render halaman semua komentar
+export const showComments = async (req, res, next) => {
+  try {
+    const comments = await Comment.findAll({
+      include: [
+        {
+          model: User,
+          as: "Comment_User",
+          attributes: ["id", "name", "username"],
+        },
+      ],
       order: [["created_at", "DESC"]],
     });
 
-    res.status(200).json({
-      success: true,
-      total: rows.length,
-      data: rows,
+    res.render("user/commentPage", {
+      title: "Comments",
+      comments,
+      message: req.query.message || "",
     });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+  } catch (error) {
+    console.log("SHOW COMMENTS ERROR:", error);
+    next(error);
   }
 };
 
-const updateComment = async (req, res) => {
+// Update komentar milik user yang login
+export const updateComment = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { message } = req.body;
-    const user_id = req.user.id; // user yang lagi login
+    const { comment } = req.body;
+    const userId = req.session.user.id;
 
-    if (!id) {
-      return res.status(400).json({
-        success: false,
-        message: "ID tidak valid",
-      });
+    if (!comment || comment.trim() === "") {
+      return redirectWithMessage(
+        res,
+        "/showComments",
+        "Komentar tidak boleh kosong."
+      );
     }
 
-    if (!message) {
-      return res.status(400).json({
-        success: false,
-        message: "Komentar tidak boleh kosong",
-      });
+    const existingComment = await Comment.findByPk(id);
+
+    if (!existingComment) {
+      return redirectWithMessage(
+        res,
+        "/showComments",
+        "Komentar tidak ditemukan."
+      );
     }
 
-    // Cuma boleh update comment milik sendiri
-    const [affectedCount] = await Comment.update(
-      { comment: message },
-      { where: { comment_id: id, user_id } }
+    if (existingComment.user_id !== userId) {
+      return redirectWithMessage(
+        res,
+        "/showComments",
+        "Kamu hanya bisa mengedit komentar milikmu sendiri."
+      );
+    }
+
+    await existingComment.update({
+      comment: comment.trim(),
+    });
+
+    return redirectWithMessage(
+      res,
+      "/showComments",
+      "Komentar berhasil diperbarui."
     );
-
-    if (affectedCount === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Comment tidak ditemukan atau bukan milikmu",
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Comment berhasil diupdate",
-      data: {
-        id,
-        message,
-      },
-    });
-  } catch (err) {
-    console.error("ERROR UPDATE:", err);
-
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+  } catch (error) {
+    console.log("UPDATE COMMENT ERROR:", error);
+    next(error);
   }
 };
 
-const deleteComment = async (req, res) => {
+// Hapus komentar milik user yang login
+export const deleteComment = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user_id = req.user.id; // user yang lagi login
+    const userId = req.session.user.id;
 
-    if (!id) {
-      return res.status(400).json({
-        success: false,
-        message: "ID tidak valid",
-      });
+    const existingComment = await Comment.findByPk(id);
+
+    if (!existingComment) {
+      return redirectWithMessage(
+        res,
+        "/showComments",
+        "Komentar tidak ditemukan."
+      );
     }
 
-    // Cuma boleh hapus comment milik sendiri
-    const deletedCount = await Comment.destroy({
-      where: { comment_id: id, user_id },
-    });
-
-    if (deletedCount === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Comment tidak ditemukan atau bukan milikmu",
-      });
+    if (existingComment.user_id !== userId) {
+      return redirectWithMessage(
+        res,
+        "/showComments",
+        "Kamu hanya bisa menghapus komentar milikmu sendiri."
+      );
     }
 
-    res.status(200).json({
-      success: true,
-      message: "Comment berhasil dihapus",
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    await existingComment.destroy();
+
+    return redirectWithMessage(
+      res,
+      "/showComments",
+      "Komentar berhasil dihapus."
+    );
+  } catch (error) {
+    console.log("DELETE COMMENT ERROR:", error);
+    next(error);
   }
 };
-
-const createComment = async (req, res) => {
-  try {
-    const { id: user_id, name, email } = req.user || {};
-    const { message } = req.body;
-
-    if (!message) {
-      return res.status(400).json({
-        success: false,
-        message: "Komentar tidak boleh kosong",
-      });
-    }
-
-    const newComment = await Comment.create({
-      user_id,
-      name,
-      email,
-      comment: message,
-    });
-
-    res.status(201).json({
-      success: true,
-      message: "Comment berhasil ditambahkan",
-      data: newComment,
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
-  }
-};
-
-export { getAllComments, createComment, updateComment, deleteComment };
