@@ -102,7 +102,6 @@
                         <th>Nama Menu</th>
                         <th>Kategori</th>
                         <th>Harga</th>
-                        <th>Status</th>
                         <th>Aksi</th>
 
                     </tr>
@@ -133,24 +132,6 @@
 
                             <td>
                                 Rp <%= menu.price %>
-                            </td>
-
-                            <td>
-
-                                <% if(menu.status === 'Tersedia'){ %>
-
-                                <span class="badge bg-success">
-                                    Tersedia
-                                </span>
-
-                                <% } else { %>
-
-                                <span class="badge bg-danger">
-                                    Habis
-                                </span>
-
-                                <% } %>
-
                             </td>
 
                             <td>
@@ -243,16 +224,6 @@ data-bs-dismiss="modal"></button>
 <option>Pastry</option>
 <option>Cake</option>
 <option>Coffee</option>
-
-</select>
-</div>
-
-<div class="col-md-6">
-<label class="form-label">Status</label>
-<select class="form-select" name="status">
-
-<option>Tersedia</option>
-<option>Habis</option>
 
 </select>
 </div>
