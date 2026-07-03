@@ -1,312 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title><%= locals.pageTitle || 'Komentar — YumYum Bakery' %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <title>
+    <%= title || "Comments - YumYum Bakery" %>
+  </title>
 
-  <link href="/css/commentForm-login.css" rel="stylesheet"/>
-  <link href="/css/commentPage.css" rel="stylesheet"/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <link href="/css/index.css" rel="stylesheet" />
+  <link href="/css/commentPage.css" rel="stylesheet" />
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container-fluid px-0">
-    <a class="navbar-brand ms-0" href="/">
-      <img src="/logo/logo_nama.png" alt="YumYum Bakery" class="nav-logo-img"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-      <div class="nav-logo-fallback" style="display:none;">
-        <div class="logo-box">
-          <svg viewBox="0 0 48 48" fill="none" width="32" height="32">
-            <ellipse cx="24" cy="28" rx="16" ry="10" fill="#c9922a"/>
-            <ellipse cx="24" cy="26" rx="14" ry="8" fill="#e8b84b"/>
-            <path d="M16 18 Q24 10 32 18" stroke="#c9922a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <text x="15" y="33" font-size="9" font-weight="bold" fill="#3b1f0e" font-family="serif">YB</text>
-          </svg>
-        </div>
-        <div>
-          <span class="brand-name" style="color:#fff">YumYum</span>
-          <span class="brand-sub d-block" style="color:rgba(255,255,255,0.7)">Bakery</span>
-        </div>
+  <%- include("./navbar") %>
+
+    <main class="comment-page-wrapper">
+
+      <div class="comment-page-heading">
+        <p class="celebrate">Customer Voices</p>
+        <h1>Komentar & Saran</h1>
+        <p class="sub-title">- PENDAPAT PELANGGAN YUMYUM BAKERY -</p>
       </div>
-    </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarMain">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item"><a class="nav-link" href="menu">MENU</a></li>
-        <li class="nav-item"><a class="nav-link" href="/store">STORE</a></li>
-        <li class="nav-item"><a class="nav-link" href="about_us">ABOUT US</a></li>
-        <li class="nav-item"><a class="nav-link" href="/history">HISTORY</a></li>
-      </ul>
-      <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
-        <a href="/cart" class="btn-cart">
-          <img src="/icon/keranjang.png" alt="Cart"
-               onerror="this.outerHTML='<span style=\'font-size:18px;\'>🛒</span>'"> CART
+      <div class="comment-top-actions">
+        <a href="/comment" class="btn-add-comment">
+          TULIS KOMENTAR
         </a>
       </div>
-    </div>
-  </div>
-</nav>
 
-<div class="page-wrapper">
-  <h1 class="page-title">Komentar & Saran</h1>
-
-  <div id="commentList">
-    <div class="state-box">
-      <div class="icon">⏳</div>
-      <p>Memuat komentar...</p>
-    </div>
-  </div>
-</div>
-
-<div class="toast-notification" id="toastNotif"></div>
-
-<footer>
-  <div class="row g-4 mb-4">
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <div class="d-flex flex-column align-items-start">
-        <img src="/logo/logo_aja.png" alt="YumYum Bakery Logo" class="footer-logo-main"
-             onerror="this.src='https://via.placeholder.com/200x100?text=YumYum+Logo'"/>
-        <img src="/icon/icon halal.png" alt="Halal" class="footer-halal"
-             onerror="this.src='https://via.placeholder.com/80?text=Halal'"/>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <h4>YUMYUM BAKERY</h4>
-      <ul>
-        <li><a href="about_us">About Us</a></li>
-        <li><a href="commentForm">Contact</a></li>
-      </ul>
-      <div class="mt-sponsor">
-        <h4>SPONSOR</h4>
-        <div class="row g-2">
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/anchor.png" alt="Anchor" onerror="this.src='https://via.placeholder.com/100x40?text=Anchor'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/indofood.png" alt="Indofood" onerror="this.src='https://via.placeholder.com/100x40?text=Indofood'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/gofood.png" alt="GoFood" onerror="this.src='https://via.placeholder.com/100x40?text=GoFood'"></div></div>
-          <div class="col-6"><div class="sponsor-logo-box"><img src="/logo/tokped.png" alt="Tokopedia" onerror="this.src='https://via.placeholder.com/100x40?text=Tokopedia'"></div></div>
+      <% if (typeof message !=="undefined" && message) { %>
+        <div class="alert alert-info comment-alert">
+          <%= message %>
         </div>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-4 col-sm-12 mt-4 mt-md-0">
-      <h4>HELP CENTER</h4>
-      <ul>
-        <li><a href="privacy">Privacy Policy</a></li>
-      </ul>
-    </div>
-    <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
-      <h4>CONTACT US</h4>
-      <div class="contact-item">
-        <img src="/icon/tlp.png" alt="phone" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📞</span>'" /> 889070999
-      </div>
-      <div class="contact-item">
-        <img src="/icon/wa.png" alt="whatsapp" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📱</span>'" /> +62 887 1447 0009
-      </div>
-      <div class="contact-item">
-        <img src="/icon/ig.png" alt="instagram" onerror="this.outerHTML='<span style=\'font-size:20px;\'>📸</span>'" /> @YumYum_Bakery
-      </div>
-      <div class="mt-pengaduan">
-        <h4>LAYANAN PENGADUAN</h4>
-        <div class="complaint-section">
-          <p>PT Matahari Bulan Bintang Angkasa</p>
-          <p>Email : marketing@yumyum.com</p>
-          <p>0867 0000 1222 (WhatsApp)</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <hr class="footer-divider"/>
-  <p class="footer-bottom">© 2024 YumYum Bakery. All rights reserved.</p>
-</footer>
+        <% } %>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  const API_BASE = 'http://localhost:3000/api';
-  const COMMENTS_ENDPOINT = `${API_BASE}/comments`;
+          <div class="comment-list">
 
-  function showToast(msg, duration = 2500) {
-    const t = document.getElementById('toastNotif');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), duration);
-  }
+            <% if (!comments || comments.length===0) { %>
 
-  const avatarSVG = `
-    <svg viewBox="0 0 40 40" fill="none" width="40" height="40">
-      <circle cx="20" cy="20" r="20" fill="#d0ccc8"/>
-      <circle cx="20" cy="16" r="7" fill="#b0aba7"/>
-      <ellipse cx="20" cy="34" rx="11" ry="8" fill="#b0aba7"/>
-    </svg>`;
+              <div class="empty-comment-box">
+                <div class="empty-icon">💬</div>
+                <p>Belum ada komentar.</p>
+              </div>
 
-  function createCommentCard(item) {
-    const isDeleted = item.is_deleted || false;
-    const bodyText = item.message || item.comment || item.content || '';    
-    const bodyClass = isDeleted ? 'comment-body deleted' : 'comment-body';
-    const author    = item.name || item.username || 'Pengguna';
-    const dateStr   = item.created_at || item.date || item.timestamp || new Date().toISOString();
+              <% } else { %>
 
-    const card = document.createElement('div');
-    card.className  = 'comment-card';
-    card.dataset.id = item.id;
+                <% comments.forEach((comment)=> { %>
+                  <% const commentId=comment.id || comment.comment_id; const
+                    commenterUsername=comment.Comment_User?.username || comment.username || "User" ; %>
 
-    card.innerHTML = `
-      <div class="comment-header">
-        <div class="comment-avatar">${avatarSVG}</div>
-        <div class="comment-meta">
-          <div class="comment-author">${escapeHtml(author)}</div>
-          <div class="comment-time">${formatTime(dateStr)}</div>
-        </div>
-      </div>
+                    <div class="comment-card">
 
-      <div class="${bodyClass}" id="body-${item.id}">${escapeHtml(bodyText)}</div>
+                      <div class="comment-header">
+                        <div class="comment-avatar">
+                          <%= commenterUsername.charAt(0).toUpperCase() %>
+                        </div>
 
-      ${!isDeleted ? `
-      <div class="edit-form" id="edit-${item.id}">
-        <textarea id="edit-text-${item.id}">${escapeHtml(bodyText)}</textarea>
-        <div class="edit-actions">
-          <button class="btn-save" onclick="saveEdit(${item.id})">Simpan</button>
-          <button class="btn-cancel" onclick="cancelEdit(${item.id})">Batal</button>
-        </div>
-      </div>` : ''}
+                        <div class="comment-meta">
+                          <h3>
+                            <%= commenterUsername %>
+                          </h3>
 
-      ${!isDeleted ? `
-      <div class="comment-menu-wrap">
-        <button class="btn-dots" onclick="toggleDropdown(${item.id})" title="Opsi">⋯</button>
-        <div class="dots-dropdown" id="dropdown-${item.id}">
-          <button onclick="openEdit(${item.id})">Edit</button>
-          <button class="btn-hapus" onclick="deleteComment(${item.id})">Hapus</button>
-        </div>
-      </div>` : ''}
-    `;
+                          <p>
+                            <%= new Date(comment.created_at).toLocaleDateString("id-ID", { day: "2-digit" ,
+                              month: "short" , year: "numeric" }) %>
+                          </p>
+                        </div>
+                      </div>
 
-    return card;
-  }
+                      <p class="comment-body" id="comment-text-<%= commentId %>">
+                        <%= comment.comment %>
+                      </p>
 
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
+                      <% if (typeof user !=="undefined" && user && Number(comment.user_id)===Number(user.id)) { %>
 
-  async function loadComments() {
-    const list = document.getElementById('commentList');
-    list.innerHTML = `<div class="state-box"><div class="icon">⏳</div><p>Memuat komentar...</p></div>`;
+                        <div class="comment-menu-wrap">
+                          <button type="button" class="btn-dots" onclick="toggleDropdown('<%= commentId %>')">
+                            ⋯
+                          </button>
 
-    try {
-      const res  = await fetch(COMMENTS_ENDPOINT);
-      const json = await res.json();
+                          <div class="dots-dropdown" id="dropdown-<%= commentId %>">
+                            <button type="button" onclick="showEditForm('<%= commentId %>')">
+                              Edit
+                            </button>
 
-      const items = Array.isArray(json) ? json : (json.data || []);
+                            <form action="/comment/<%= commentId %>/delete" method="POST"
+                              onsubmit="return confirm('Yakin ingin menghapus komentar ini?')">
+                              <button type="submit" class="btn-delete">
+                                Hapus
+                              </button>
+                            </form>
+                          </div>
+                        </div>
 
-      if (items.length === 0) {
-        list.innerHTML = `
-          <div class="state-box">
-            <div class="icon">💬</div>
-            <p>Belum ada komentar.</p>
-          </div>`;
-        return;
-      }
+                        <form action="/comment/<%= commentId %>/edit" method="POST" class="edit-comment-form"
+                          id="edit-form-<%= commentId %>">
+                          <textarea name="comment" rows="4" required><%= comment.comment %></textarea>
 
-      list.innerHTML = '';
-      items.forEach(item => list.appendChild(createCommentCard(item)));
+                          <div class="edit-actions">
+                            <button type="submit" class="btn-save-edit">
+                              Simpan
+                            </button>
 
-    } catch (err) {
-      list.innerHTML = `
-        <div class="state-box">
-          <div class="icon">⚠️</div>
-          <p>Gagal memuat komentar.</p>
-          <p style="font-size:12px;color:#aaa;margin-top:6px;">Pastikan server berjalan di <strong>${API_BASE}</strong></p>
-        </div>`;
-    }
-  }
+                            <button type="button" class="btn-cancel-edit" onclick="hideEditForm('<%= commentId %>')">
+                              Batal
+                            </button>
+                          </div>
+                        </form>
 
-  function toggleDropdown(id) {
-    document.querySelectorAll('.dots-dropdown.open').forEach(el => {
-      if (el.id !== `dropdown-${id}`) el.classList.remove('open');
-    });
-    document.getElementById(`dropdown-${id}`).classList.toggle('open');
-  }
+                        <% } %>
 
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.comment-menu-wrap')) {
-      document.querySelectorAll('.dots-dropdown.open').forEach(el => el.classList.remove('open'));
-    }
-  });
+                    </div>
 
-  function openEdit(id) {
-    document.getElementById(`dropdown-${id}`).classList.remove('open');
-    document.getElementById(`body-${id}`).style.display  = 'none';
-    document.getElementById(`edit-${id}`).classList.add('open');
-    document.getElementById(`edit-text-${id}`).focus();
-  }
+                    <% }) %>
 
-  function cancelEdit(id) {
-    document.getElementById(`edit-${id}`).classList.remove('open');
-    document.getElementById(`body-${id}`).style.display = '';
-  }
+                      <% } %>
 
-  async function saveEdit(id) {
-    const newText = document.getElementById(`edit-text-${id}`).value.trim();
-    if (!newText) { showToast('⚠️ Komentar tidak boleh kosong'); return; }
+          </div>
 
-    try {
-      const res = await fetch(`${COMMENTS_ENDPOINT}/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: newText })
-      });
+    </main>
 
-      if (!res.ok) throw new Error('Gagal menyimpan');
+    <%- include("./footer") %>
 
-      document.getElementById(`body-${id}`).textContent = newText;
-      cancelEdit(id);
-      showToast('✅ Komentar berhasil diperbarui');
-      alert("Komentar berhasil diperbarui!")
-    } catch (err) {
-      showToast('❌ Gagal menyimpan perubahan');
-    }
-  }
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  async function deleteComment(id) {
-    if (!confirm('Hapus komentar ini?')) return;
+      <script>
+        function toggleDropdown(id) {
+          document.querySelectorAll(".dots-dropdown.show").forEach((dropdown) => {
+            if (dropdown.id !== `dropdown-${id}`) {
+              dropdown.classList.remove("show");
+            }
+          });
 
-    try {
-      const res = await fetch(`${COMMENTS_ENDPOINT}/${id}`, {
-        method: 'DELETE'
-      });
+          document.getElementById(`dropdown-${id}`).classList.toggle("show");
+        }
 
-      if (!res.ok) throw new Error('Gagal menghapus');
+        function showEditForm(id) {
+          document.getElementById(`dropdown-${id}`).classList.remove("show");
+          document.getElementById(`edit-form-${id}`).classList.add("show");
+          document.getElementById(`comment-text-${id}`).style.display = "none";
+        }
 
-      const card = document.querySelector(`.comment-card[data-id="${id}"]`);
-      if (card) card.remove();
+        function hideEditForm(id) {
+          document.getElementById(`edit-form-${id}`).classList.remove("show");
+          document.getElementById(`comment-text-${id}`).style.display = "block";
+        }
 
-      showToast('🗑️ Komentar berhasil dihapus');
-    } catch (err) {
-      showToast('❌ Gagal menghapus komentar');
-    }
-  }
-
-  function formatTime(dateString) {
-    const date = new Date(dateString);
-
-    return date.toLocaleString('id-ID', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-  }
-
-  loadComments();
-</script>
+        document.addEventListener("click", function (event) {
+          if (!event.target.closest(".comment-menu-wrap")) {
+            document.querySelectorAll(".dots-dropdown.show").forEach((dropdown) => {
+              dropdown.classList.remove("show");
+            });
+          }
+        });
+      </script>
 
 </body>
+
 </html>

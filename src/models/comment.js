@@ -34,6 +34,8 @@ const Comment = sequelize.define(
   },
   {
     tableName: "comments",
+    timestamps: true,
+    underscored: true
   },
 );
 

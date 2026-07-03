@@ -1,83 +1,81 @@
-:root{
-  --navbar-bg:#4E2609;
-  --gold:#c9922a;
-  --gold-light:#e8b84b;
-  --cream:#f5f0e8;
+:root {
+    --navbar-bg: #4E2609;
+    --gold: #c9922a;
+    --gold-light: #e8b84b;
+    --cream: #f5f0e8;
 }
 
-body{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(
-        135deg,
-        #3b1f0e,
-        #4E2609,
-        #754C27
-    );
-    font-family:Poppins,sans-serif;
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg,
+            #3b1f0e,
+            #4E2609,
+            #754C27);
+    font-family: Poppins, sans-serif;
 }
 
-.login-card{
-    width:450px;
-    background:white;
-    border-radius:24px;
-    padding:40px;
-    box-shadow:0 20px 40px rgba(0,0,0,.2);
+.login-card {
+    width: 450px;
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, .2);
 }
 
-.logo{
-    text-align:center;
-    margin-bottom:30px;
+.logo {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-.logo-image{
+.logo-image {
     display: flex;
     justify-content: center;
     margin: 15px 0;
 }
 
-.logo-image img{
+.logo-image img {
     width: 90px;
     height: 90px;
     object-fit: contain;
 }
 
-.logo h2{
-    margin-top:15px;
-    font-weight:700;
+.logo h2 {
+    margin-top: 15px;
+    font-weight: 700;
 }
 
-.logo p{
-    color:#777;
+.logo p {
+    color: #777;
 }
 
-.form-control{
-    border-radius:12px;
-    padding:12px;
+.form-control {
+    border-radius: 12px;
+    padding: 12px;
 }
 
-.btn-admin{
-    width:100%;
-    background:var(--gold);
-    color:white;
-    border:none;
-    border-radius:12px;
-    padding:12px;
-    font-weight:600;
+.btn-admin {
+    width: 100%;
+    background: var(--gold);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    font-weight: 600;
 }
 
-.btn-admin:hover{
-    background:var(--gold-light);
+.btn-admin:hover {
+    background: var(--gold-light);
 }
 
-.admin-badge{
-    background:#fff4d8;
-    color:#8b4513;
-    padding:8px 16px;
-    border-radius:50px;
-    font-size:13px;
-    display:inline-block;
-    margin-bottom:10px;
+.admin-badge {
+    background: #fff4d8;
+    color: #8b4513;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 13px;
+    display: inline-block;
+    margin-bottom: 10px;
 }

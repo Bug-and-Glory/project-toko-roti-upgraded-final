@@ -16,7 +16,10 @@ export const showCommentForm = (req, res) => {
 export const createComment = async (req, res, next) => {
   try {
     const { comment } = req.body;
+
     const userId = req.session.user.id;
+    const name = req.session.user.name || req.session.user.username;
+    const email = req.session.user.email;
 
     if (!comment || comment.trim() === "") {
       return redirectWithMessage(res, "/comment", "Komentar tidak boleh kosong.");
@@ -24,6 +27,8 @@ export const createComment = async (req, res, next) => {
 
     await Comment.create({
       user_id: userId,
+      name,
+      email,
       comment: comment.trim(),
     });
 
@@ -80,21 +85,21 @@ export const updateComment = async (req, res, next) => {
 
     const existingComment = await Comment.findByPk(id);
 
-    if (!existingComment) {
-      return redirectWithMessage(
-        res,
-        "/showComments",
-        "Komentar tidak ditemukan."
-      );
-    }
+    if (Number(existingComment.user_id) !== Number(userId)) {
+  return redirectWithMessage(
+    res,
+    "/showComments",
+    "Kamu hanya bisa mengedit komentar milikmu sendiri."
+  );
+}
 
-    if (existingComment.user_id !== userId) {
-      return redirectWithMessage(
-        res,
-        "/showComments",
-        "Kamu hanya bisa mengedit komentar milikmu sendiri."
-      );
-    }
+   if (Number(existingComment.user_id) !== Number(userId)) {
+  return redirectWithMessage(
+    res,
+    "/showComments",
+    "Kamu hanya bisa menghapus komentar milikmu sendiri."
+  );
+}
 
     await existingComment.update({
       comment: comment.trim(),

@@ -1,8 +1,10 @@
--- MySQL dump 10.13  Distrib 8.0.45, for macos15 (arm64)
+CREATE DATABASE  IF NOT EXISTS `toko_roti` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `toko_roti`;
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: toko_roti
+-- Host: localhost    Database: toko_roti
 -- ------------------------------------------------------
--- Server version	9.6.0
+-- Server version	8.0.42
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,14 +16,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
-SET @@SESSION.SQL_LOG_BIN= 0;
-
---
--- GTID state at the beginning of the backup 
---
-
--- SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '44044b24-37e6-11f1-bade-ea9c50bcc08d:1-302';
 
 --
 -- Table structure for table `admin`
@@ -48,7 +42,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'Muhadist','muhadist.as','12345678','2026-06-30 08:49:10','2026-06-30 08:49:10');
+INSERT INTO `admin` VALUES (1,'Super Admin','sadmin','sadmin12345','2026-07-03 20:49:40','2026-07-03 20:49:40');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +64,7 @@ CREATE TABLE `comments` (
   PRIMARY KEY (`comment_id`),
   KEY `fk_comments_user` (`user_id`),
   CONSTRAINT `fk_comments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +73,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (1,1,'Doni Saputra','doni1971@gmail.com','mantap3','2026-06-30 17:26:32','2026-06-30 17:26:32'),(2,1,'Doni Saputra','doni1971@gmail.com','enak kali','2026-06-30 17:32:18','2026-06-30 17:32:18');
+INSERT INTO `comments` VALUES (1,1,'Siti Zahara','peaxhy@example.com','baru saja beli croissant nya, croissant nya renyah banget di luar dan bagian dalamnya ngembang sempurna dan lembut','2026-07-03 20:53:58','2026-07-03 20:53:58'),(2,2,'Fhilip','val@example.com','susu strawberry nya enak banget, manis nya pas gak buat eneg, susu nya juga kerasa banget','2026-07-03 20:56:03','2026-07-03 20:56:03'),(3,3,'Muhadist','rogers@example.com','Singkat saja, harga sesuai dengan kualitas. Kalau penasaran, cobain sendiri aja','2026-07-03 21:00:22','2026-07-03 21:00:22'),(4,4,'Caroline','oline@example.com','dibeliin pacar kue ultah dari toko ini, enakk banget.. makasih banyak buat pacar aku yang baik hati. Semoga dilihat','2026-07-03 21:03:10','2026-07-03 21:03:10');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,7 +120,7 @@ CREATE TABLE `order_details` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `fk_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
   CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,6 +129,7 @@ CREATE TABLE `order_details` (
 
 LOCK TABLES `order_details` WRITE;
 /*!40000 ALTER TABLE `order_details` DISABLE KEYS */;
+INSERT INTO `order_details` (`detail_id`, `order_id`, `product_id`, `quantity`, `price`) VALUES (1,1,1,1,15000.00),(2,1,2,2,16000.00),(3,2,27,1,22000.00),(4,3,10,5,12000.00),(5,4,5,1,120000.00);
 /*!40000 ALTER TABLE `order_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,7 +149,7 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`order_id`),
   KEY `fk_orders_user` (`user_id`),
   CONSTRAINT `fk_orders_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,6 +158,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (1,1,'2026-07-03 20:53:13','Siti Zahara',47000.00),(2,2,'2026-07-03 20:55:13','Fhilip',22000.00),(3,3,'2026-07-03 20:59:32','Muhadist',60000.00),(4,4,'2026-07-03 21:02:09','Caroline',120000.00);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,7 +264,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -277,10 +273,9 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Doni Saputra','doniii','doni1971@gmail.com','1234567','2026-06-30 08:47:35','2026-06-30 08:47:35');
+INSERT INTO `users` VALUES (1,'Siti Zahara','peaxhy','peaxhy@example.com','$2b$10$s3YesXAq4rhmShjd9YWgauSjw2..8yw9M4Mq5tB5H3flCWNhWGplC','2026-07-03 20:51:35','2026-07-03 20:51:35'),(2,'Fhilip','val','val@example.com','$2b$10$x7/0GOvFp1R6JqXL6rTD3u7Ty2YuamZjLJs2ATrOQx8G82mDCqrXC','2026-07-03 20:54:57','2026-07-03 20:54:57'),(3,'Muhadist','rogers','rogers@example.com','$2b$10$KgTN7wbHEzOQdH55Rqk6TejTkCpPdMLY7nRQB.6W9xCuujV42cUy6','2026-07-03 20:58:32','2026-07-03 20:58:32'),(4,'Caroline','oline','oline@example.com','$2b$10$Yh/od41TdPdP9Kr111eJj.i1eqY6dWQY87y30hPJzu7fC9uQaWxRi','2026-07-03 21:01:42','2026-07-03 21:01:42');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
-SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -291,4 +286,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-07-02 12:39:19
+-- Dump completed on 2026-07-04  4:10:47
