@@ -72,11 +72,35 @@
                 </ul>
 
                 <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
-                    <a href="/cart" class="btn-cart">
-                        <img src="/icon/keranjang.png" alt="Cart">
-                        CART
-                        <span class="cart-badge" id="cartBadge">0</span>
-                    </a>
+
+                    <% if (typeof user !== "undefined" && user) { %>
+
+                        <span class="nav-user-name">
+                            Halo, <%= user.name %>
+                        </span>
+
+                        <a href="/cart" class="btn-cart">
+                            <img src="/icon/keranjang.png" alt="Cart">
+                            CART
+                            <span class="cart-badge" id="cartBadge">0</span>
+                        </a>
+
+                        <a href="/logout" class="btn-auth-navbar">
+                            LOGOUT
+                        </a>
+
+                        <% } else { %>
+
+                            <a href="/login" class="btn-auth-navbar">
+                                LOGIN
+                            </a>
+
+                            <a href="/register" class="btn-auth-navbar">
+                                REGISTER
+                            </a>
+
+                            <% } %>
+
                 </div>
             </div>
 
@@ -102,29 +126,20 @@
                     <div class="mb-3">
                         <label class="form-label">Alamat Email</label>
 
-                        <input
-                            type="email"
-                            name="email"
-                            class="form-control"
-                            placeholder="contoh@email.com"
-                            required>
+                        <input type="email" name="email" class="form-control" placeholder="contoh@email.com" required>
                     </div>
 
                     <div class="mb-4">
                         <label class="form-label">Kata Sandi</label>
 
-                        <input
-                            type="password"
-                            name="password"
-                            class="form-control"
-                            placeholder="Masukkan kata sandi"
+                        <input type="password" name="password" class="form-control" placeholder="Masukkan kata sandi"
                             required>
                     </div>
 
-                   <div id="authMessage" class="auth-message mb-3" style="display: none;"></div>
+                    <div id="authMessage" class="auth-message mb-3" style="display: none;"></div>
 
-<button type="submit" class="btn-submit">MASUK</button>
-</form>
+                    <button type="submit" class="btn-submit">MASUK</button>
+                </form>
 
             </div>
         </div>
@@ -260,15 +275,15 @@
     </script>
 
     <script>
-    const params = new URLSearchParams(window.location.search);
-    const message = params.get("message");
-    const authMessage = document.getElementById("authMessage");
+        const params = new URLSearchParams(window.location.search);
+        const message = params.get("message");
+        const authMessage = document.getElementById("authMessage");
 
-    if (message && authMessage) {
-        authMessage.textContent = message;
-        authMessage.style.display = "block";
-    }
-</script>
+        if (message && authMessage) {
+            authMessage.textContent = message;
+            authMessage.style.display = "block";
+        }
+    </script>
 
 </body>
 

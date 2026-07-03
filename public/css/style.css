@@ -448,3 +448,25 @@ footer ul li a:hover {
     font-weight: 500;
     text-align: left;
 }
+
+.nav-user-name {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.btn-auth-navbar {
+    background-color: #3b1f0e;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.btn-auth-navbar:hover {
+    background-color: #c9922a;
+    color: #fff;
+}
