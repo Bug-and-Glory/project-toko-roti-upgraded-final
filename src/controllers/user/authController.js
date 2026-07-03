@@ -14,8 +14,6 @@ export const showRegister = (req, res) => {
 
 export const register = async (req, res) => {
   try {
-    console.log("REGISTER BODY:", req.body);
-
     const { name, username, email, password } = req.body;
 
     if (!name || !username || !email || !password) {
@@ -24,7 +22,7 @@ export const register = async (req, res) => {
 
     const existingEmail = await User.findOne({
       where: {
-        email: email,
+        email,
       },
     });
 
@@ -34,7 +32,7 @@ export const register = async (req, res) => {
 
     const existingUsername = await User.findOne({
       where: {
-        username: username,
+        username,
       },
     });
 
@@ -51,7 +49,11 @@ export const register = async (req, res) => {
       password: hashedPassword,
     });
 
-    return redirectWithMessage(res, "/login", "Akun berhasil terdaftar. Silakan login.");
+    return redirectWithMessage(
+      res,
+      "/login",
+      "Akun berhasil terdaftar. Silakan login."
+    );
   } catch (error) {
     console.log("REGISTER ERROR:", error);
     return redirectWithMessage(res, "/register", "Terjadi kesalahan saat register.");
@@ -67,31 +69,30 @@ export const showLogin = (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    console.log("LOGIN BODY:", req.body);
-
     const { email, password } = req.body;
 
     if (!email || !password) {
+      delete req.session.user;
       return redirectWithMessage(res, "/login", "Email dan password harus diisi!");
     }
 
     const user = await User.findOne({
       where: {
-        email: email,
+        email,
       },
     });
 
-if (!user) {
-  delete req.session.user;
-  return redirectWithMessage(res, "/login", "Email atau password salah!");
-}
+    if (!user) {
+      delete req.session.user;
+      return redirectWithMessage(res, "/login", "Email atau password salah!");
+    }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-  delete req.session.user;
-  return redirectWithMessage(res, "/login", "Email atau password salah!");
-}
+      delete req.session.user;
+      return redirectWithMessage(res, "/login", "Email atau password salah!");
+    }
 
     req.session.user = {
       id: user.id,
@@ -100,9 +101,12 @@ if (!user) {
       email: user.email,
     };
 
-    return res.redirect("/");
+    return req.session.save(() => {
+      res.redirect("/");
+    });
   } catch (error) {
     console.log("LOGIN ERROR:", error);
+    delete req.session.user;
     return redirectWithMessage(res, "/login", "Terjadi kesalahan saat login.");
   }
 };
