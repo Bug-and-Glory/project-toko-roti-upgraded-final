@@ -81,15 +81,17 @@ export const login = async (req, res) => {
       },
     });
 
-    if (!user) {
-      return redirectWithMessage(res, "/login", "Email atau password salah!");
-    }
+if (!user) {
+  delete req.session.user;
+  return redirectWithMessage(res, "/login", "Email atau password salah!");
+}
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return redirectWithMessage(res, "/login", "Email atau password salah!");
-    }
+  delete req.session.user;
+  return redirectWithMessage(res, "/login", "Email atau password salah!");
+}
 
     req.session.user = {
       id: user.id,

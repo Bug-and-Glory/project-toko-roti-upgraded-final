@@ -19,6 +19,9 @@ const Admin = sequelize.define(
     password:{
         type: DataTypes.STRING,
     },
-},{tableName : "admin"})
+},{tableName : "admin",
+    timestamps: true,
+    underscored: true,
+})
 
 export default Admin
