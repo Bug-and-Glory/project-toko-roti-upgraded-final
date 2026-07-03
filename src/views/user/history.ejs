@@ -68,70 +68,78 @@
      HISTORY CONTENT
 ============================================================ -->
 <div class="history-section">
-  <div class="filter-bar">
-    <input type="text" id="customerSearch" placeholder="Cari nama customer..." oninput="filterOrders()"/>
-  </div>
 
-  <div id="orderList">
+  <% if (!orders || orders.length === 0) { %>
 
-    <% if (!orders || !orders.length) { %>
+    <div class="state-msg">
+      <div class="icon">📭</div>
+      <p>Belum ada riwayat pesanan.</p>
+    </div>
 
-      <div class="state-msg">
-        <div class="icon">📭</div>
-        <p>Belum ada riwayat pesanan ditemukan.</p>
-      </div>
+  <% } else { %>
 
-    <% } else { %>
+    <% orders.forEach((order) => { %>
 
-      <% orders.forEach((order, i) => { %>
-
-      <div class="order-card" data-customer="<%= order.customer_name.toLowerCase() %>" style="animation-delay: <%= i * 0.06 %>s">
+      <div class="order-card">
 
         <div class="card-head">
           <div>
-            <div class="order-title">Order #<%= order.order_id %></div>
-            <div class="order-customer"><%= order.customer_name %></div>
+            <div class="order-title">
+              Order #<%= order.order_id %>
+            </div>
+
+            <div class="order-customer">
+              <%= order.customer_name %>
+            </div>
           </div>
+
           <span class="badge-date">
-            <%= new Date(order.order_date).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) %>
+            <%= new Date(order.order_date).toLocaleDateString("id-ID") %>
           </span>
         </div>
 
         <div class="card-body-inner">
           <div class="items-label">Detail Pesanan</div>
 
-          <% if (order.Order_OrderDetail && order.Order_OrderDetail.length) { %>
+          <% order.Order_OrderDetail.forEach((detail) => { %>
 
-            <% order.Order_OrderDetail.forEach(item => { %>
             <div class="item-row">
-              <img class="item-img"
-                   src="<%= item.OrderDetail_Product.img_url || '' %>"
-                   alt="<%= item.OrderDetail_Product.product_name %>"
-                   onerror="this.src='https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=100&h=100&fit=crop'"/>
-              <span class="item-name"><%= item.OrderDetail_Product.product_name %></span>
-              <span class="item-qty">x<%= item.quantity %></span>
-              <span class="item-subtotal">Rp <%= new Intl.NumberFormat('id-ID').format(item.subtotal) %></span>
-            </div>
-            <% }) %>
+              <img
+                class="item-img"
+                src="<%= detail.OrderDetail_Product.img_url %>"
+                alt="<%= detail.OrderDetail_Product.name %>">
 
-          <% } else { %>
-            <p style="color:#aaa;font-size:13px;">Tidak ada item.</p>
-          <% } %>
+              <span class="item-name">
+                <%= detail.OrderDetail_Product.name %>
+              </span>
+
+              <span class="item-qty">
+                x<%= detail.quantity %>
+              </span>
+
+              <span class="item-subtotal">
+                Rp <%= Number(detail.subtotal).toLocaleString("id-ID") %>
+              </span>
+            </div>
+
+          <% }) %>
 
         </div>
 
         <div class="card-foot">
           <span class="total-label">Total Pembayaran</span>
-          <span class="total-amount">Rp <%= new Intl.NumberFormat('id-ID').format(order.total_amount) %></span>
+
+          <span class="total-amount">
+            Rp <%= Number(order.total_amount).toLocaleString("id-ID") %>
+          </span>
         </div>
 
       </div>
 
-      <% }) %>
+    <% }) %>
 
-    <% } %>
+  <% } %>
 
-  </div>
 </div>
 
 <!-- ============================================================
