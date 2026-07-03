@@ -9,6 +9,7 @@ import contactRoutes from "./contactRoutes.js";
 import commentRoutes from "./commentRoutes.js";
 import aboutRoutes from "./aboutRoutes.js";
 import storeRoutes from "./storeRoutes.js";
+import privacyRoutes from "./privacyRoutes.js";
 
 const router = express.Router();
 
@@ -21,5 +22,6 @@ router.use("/", contactRoutes);
 router.use("/", commentRoutes);
 router.use("/", aboutRoutes);
 router.use("/", storeRoutes);
+router.use("/", privacyRoutes);
 
 export default router;
