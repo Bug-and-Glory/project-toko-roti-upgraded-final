@@ -43,39 +43,31 @@
         <li class="nav-item"><a class="nav-link" href="/about_us">ABOUT US</a></li>
         <li class="nav-item"><a class="nav-link" href="/history">HISTORY</a></li>
       </ul>
-      <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
+      
+<div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
+
+    <a href="/cart" class="btn-cart-navbar">
+      <img src="/icon/keranjang.png" alt="Cart">
+        <span>CART</span>
+        
+    </a>
 
     <% if (typeof user !== "undefined" && user) { %>
 
-        <span class="nav-user-name">
-            Halo, <%= user.name %>
-        </span>
-
-        <a href="/cart" class="btn-cart">
-            <img src="/icon/keranjang.png" alt="Cart">
-            CART
-            <span class="cart-badge" id="cartBadge">0</span>
-          <img src="/icon/keranjang.png" alt="Cart"> CART
-          <span class="cart-badge" id="cartBadge">0</span>
-        </a>
-
-        <a href="/logout" class="btn-auth-navbar">
+        <a href="/logout" class="btn-login-navbar">
             LOGOUT
         </a>
 
     <% } else { %>
 
-        <a href="/login" class="btn-auth-navbar">
-            LOGIN
-        </a>
-
-        <a href="/register" class="btn-auth-navbar">
-            REGISTER
+        <a href="/login" class="btn-login-navbar">
+            LOGIN/SIGN UP
         </a>
 
     <% } %>
 
 </div>
+
     </div>
   </div>
 </nav>

@@ -283,3 +283,53 @@
       .hero-slide { aspect-ratio: 16 / 7; } .products-grid-section, .category-tabs { padding: 16px 20px; }
       .reviews-section { padding: 40px 20px 60px; } footer { padding: 40px 20px 20px; }
     }
+
+    
+
+
+    .btn-cart-navbar {
+    background-color: #512307;
+    color: #ffffff;
+    padding: 12px 28px;
+    border-radius: 35px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    letter-spacing: 0.5px;
+    border: 1px solid #e8d7c8;
+    transition: 0.25s ease;
+}
+
+.btn-cart-navbar img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.btn-cart-navbar:hover {
+    background-color: #bb622bc5;
+    color:  #ffffff;
+    transform: translateY(-1px);
+}
+
+.btn-login-navbar {
+    background-color: #f6efe7 ;
+    color: #5a2b12;
+    padding: 12px 32px;
+    border-radius: 35px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border: 1px solid #d99a9d;
+    transition: 0.25s ease;
+}
+
+.btn-login-navbar:hover {
+    background-color: #e8d7c8 ;
+    color: #5a2b12;
+    transform: translateY(-1px);
+}
