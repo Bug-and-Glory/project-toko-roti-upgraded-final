@@ -35,14 +35,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 </div>
 
+<% if (message && message.length) { %>
+<div class="alert alert-danger" role="alert">
+    <%= message %>
+</div>
+<% } %>
+
 <form action="/admin/login" method="POST">
 
 <div class="mb-3">
-<label>Email Admin</label>
+<label>Username Admin</label>
 
 <input
-type="email"
-name="email"
+type="text"
+name="username"
 class="form-control"
 required>
 </div>

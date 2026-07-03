@@ -20,8 +20,8 @@ const Admin = sequelize.define(
         type: DataTypes.STRING,
     },
 },{tableName : "admin",
-    timestamps: true,
-    underscored: true,
+    timestamps : true,
+    underscored : true,
 })
 
 export default Admin
