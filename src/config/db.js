@@ -1,28 +1,26 @@
 import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
-import { fileURLToPath } from "url";
-import path from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+dotenv.config();
 
-dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+const database = process.env.DB_NAME || process.env.MYSQLDATABASE;
+const username = process.env.DB_USER || process.env.MYSQLUSER;
+const password = process.env.DB_PASSWORD || process.env.MYSQLPASSWORD;
+const host = process.env.DB_HOST || process.env.MYSQLHOST;
+const port = Number(process.env.DB_PORT || process.env.MYSQLPORT || 3306);
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: "mysql",
-  },
-);
+const sequelize = new Sequelize(database, username, password, {
+  host,
+  port,
+  dialect: "mysql",
+  logging: false,
+});
 
 try {
   await sequelize.authenticate();
   console.log("Koneksi Database Berhasil...");
 } catch (error) {
-  console.log("Koneksi Database Gagal : ", error);
+  console.log("Koneksi Database Gagal:", error);
 }
 
 export default sequelize;
