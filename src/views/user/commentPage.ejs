@@ -19,7 +19,7 @@
   <link href="/css/commentPage.css" rel="stylesheet" />
 </head>
 
-<body>
+<body data-user-id="<%= typeof user !== 'undefined' && user ? user.id : '' %>">
 
   <%- include("./navbar") %>
 
@@ -162,6 +162,117 @@
             });
           }
         });
+      </script>
+
+      <script src="/socket.io/socket.io.js"></script>
+      <script>
+        const socket = io();
+        const currentUserId = document.body.dataset.userId || null;
+
+        function escapeHTML(str) {
+          const div = document.createElement("div");
+          div.textContent = str;
+          return div.innerHTML;
+        }
+
+        socket.on("newComment", (data) => {
+          const commentList = document.querySelector(".comment-list");
+
+          const emptyBox = commentList.querySelector(".empty-comment-box");
+          if (emptyBox) emptyBox.remove();
+
+          const tanggal = new Date(data.created_at).toLocaleDateString("id-ID", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          });
+
+          const isOwner = currentUserId && Number(data.user_id) === Number(currentUserId);
+
+          const card = document.createElement("div");
+          card.classList.add("comment-card");
+          card.innerHTML = `
+            <div class="comment-header">
+              <div class="comment-avatar">${escapeHTML(data.name.charAt(0).toUpperCase())}</div>
+              <div class="comment-meta">
+                <h3>${escapeHTML(data.name)}</h3>
+                <p>${tanggal}</p>
+              </div>
+            </div>
+            <p class="comment-body" id="comment-text-${data.id}">${escapeHTML(data.comment)}</p>
+            ${isOwner ? `
+              <div class="comment-menu-wrap">
+                <button type="button" class="btn-dots" onclick="toggleDropdown('${data.id}')">⋯</button>
+                <div class="dots-dropdown" id="dropdown-${data.id}">
+                  <button type="button" onclick="showEditForm('${data.id}')">Edit</button>
+                  <form action="/comment/${data.id}/delete" method="POST"
+                    onsubmit="return confirm('Yakin ingin menghapus komentar ini?')">
+                    <button type="submit" class="btn-delete">Hapus</button>
+                  </form>
+                </div>
+              </div>
+              <form action="/comment/${data.id}/edit" method="POST" class="edit-comment-form" id="edit-form-${data.id}">
+                <textarea name="comment" rows="4" required>${escapeHTML(data.comment)}</textarea>
+                <div class="edit-actions">
+                  <button type="submit" class="btn-save-edit">Simpan</button>
+                  <button type="button" class="btn-cancel-edit" onclick="hideEditForm('${data.id}')">Batal</button>
+                </div>
+              </form>
+            ` : ""}
+          `;
+
+          commentList.prepend(card);
+        });
+
+        // Update isi komentar secara real-time di semua tab/browser lain
+        socket.on("updateComment", (data) => {
+          const commentText = document.getElementById(`comment-text-${data.id}`);
+          if (commentText) {
+            commentText.textContent = data.comment;
+          }
+
+          // Kalau kebetulan form edit punya user itu sedang kebuka, ikut disamakan isinya
+          const editForm = document.getElementById(`edit-form-${data.id}`);
+          if (editForm) {
+            const textarea = editForm.querySelector("textarea[name='comment']");
+            if (textarea) textarea.value = data.comment;
+          }
+        });
+
+        // Hapus kartu komentar secara real-time di semua tab/browser lain
+        socket.on("deleteComment", (data) => {
+          const commentText = document.getElementById(`comment-text-${data.id}`);
+          const card = commentText ? commentText.closest(".comment-card") : null;
+          if (card) {
+            card.remove();
+          }
+
+          // Kalau komentar habis semua, tampilkan lagi kotak "Belum ada komentar"
+          const commentList = document.querySelector(".comment-list");
+          if (commentList && commentList.children.length === 0) {
+            commentList.innerHTML = `
+              <div class="empty-comment-box">
+                <div class="empty-icon">💬</div>
+                <p>Belum ada komentar.</p>
+              </div>
+            `;
+          }
+        });
+      </script>
+
+      <script>
+        // Auto-hide pesan notifikasi & bersihkan URL biar gak nongol lagi pas refresh
+        const alertBox = document.querySelector(".comment-alert");
+        if (alertBox) {
+          setTimeout(() => {
+            alertBox.style.transition = "opacity 0.5s ease";
+            alertBox.style.opacity = "0";
+            setTimeout(() => alertBox.remove(), 500);
+          }, 2500);
+
+          const cleanUrl = window.location.pathname;
+          window.history.replaceState(null, "", cleanUrl);
+        }
       </script>
 
 </body>

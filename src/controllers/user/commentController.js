@@ -25,12 +25,24 @@ export const createComment = async (req, res, next) => {
       return redirectWithMessage(res, "/comment", "Komentar tidak boleh kosong.");
     }
 
-    await Comment.create({
+    const newComment = await Comment.create({
       user_id: userId,
       name,
       email,
       comment: comment.trim(),
     });
+
+    // Broadcast komentar baru ke semua user yang lagi buka halaman showComments
+    const io = req.app.locals.io;
+    if (io) {
+      io.emit("newComment", {
+        id: newComment.comment_id,
+        user_id: newComment.user_id,
+        comment: newComment.comment,
+        name,
+        created_at: new Date(),
+      });
+    }
 
     return redirectWithMessage(
       res,
@@ -85,25 +97,34 @@ export const updateComment = async (req, res, next) => {
 
     const existingComment = await Comment.findByPk(id);
 
-    if (Number(existingComment.user_id) !== Number(userId)) {
-  return redirectWithMessage(
-    res,
-    "/showComments",
-    "Kamu hanya bisa mengedit komentar milikmu sendiri."
-  );
-}
+    if (!existingComment) {
+      return redirectWithMessage(
+        res,
+        "/showComments",
+        "Komentar tidak ditemukan."
+      );
+    }
 
-   if (Number(existingComment.user_id) !== Number(userId)) {
-  return redirectWithMessage(
-    res,
-    "/showComments",
-    "Kamu hanya bisa menghapus komentar milikmu sendiri."
-  );
-}
+    if (Number(existingComment.user_id) !== Number(userId)) {
+      return redirectWithMessage(
+        res,
+        "/showComments",
+        "Kamu hanya bisa mengedit komentar milikmu sendiri."
+      );
+    }
 
     await existingComment.update({
       comment: comment.trim(),
     });
+
+    // Broadcast perubahan komentar ke semua user yang lagi buka halaman showComments
+    const io = req.app.locals.io;
+    if (io) {
+      io.emit("updateComment", {
+        id: existingComment.comment_id,
+        comment: existingComment.comment,
+      });
+    }
 
     return redirectWithMessage(
       res,
@@ -132,7 +153,7 @@ export const deleteComment = async (req, res, next) => {
       );
     }
 
-    if (existingComment.user_id !== userId) {
+    if (Number(existingComment.user_id) !== Number(userId)) {
       return redirectWithMessage(
         res,
         "/showComments",
@@ -140,7 +161,15 @@ export const deleteComment = async (req, res, next) => {
       );
     }
 
+    const deletedId = existingComment.comment_id;
+
     await existingComment.destroy();
+
+    // Broadcast penghapusan komentar ke semua user yang lagi buka halaman showComments
+    const io = req.app.locals.io;
+    if (io) {
+      io.emit("deleteComment", { id: deletedId });
+    }
 
     return redirectWithMessage(
       res,
