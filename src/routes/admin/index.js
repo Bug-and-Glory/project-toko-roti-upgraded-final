@@ -1,5 +1,5 @@
 import express from "express";
-import adminAuth from "../../Middlewares/adminAuth.js";
+import adminAuth from "../../middlewares/adminAuth.js";
 import authRoutes from "./authRoutes.js";
 import dashboardRoutes from "./dashboardRoutes.js";
 import productRoutes from "./productRoutes.js";
