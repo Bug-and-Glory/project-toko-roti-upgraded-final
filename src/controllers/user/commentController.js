@@ -18,7 +18,8 @@ export const createComment = async (req, res, next) => {
     const { comment } = req.body;
 
     const userId = req.session.user.id;
-    const name = req.session.user.name || req.session.user.username;
+    const username = req.session.user.username;
+    const name = req.session.user.name || username;
     const email = req.session.user.email;
 
     if (!comment || comment.trim() === "") {
@@ -33,13 +34,14 @@ export const createComment = async (req, res, next) => {
     });
 
     // Broadcast komentar baru ke semua user yang lagi buka halaman showComments
+    // Pakai username (bukan name), biar konsisten sama tampilan setelah refresh
     const io = req.app.locals.io;
     if (io) {
       io.emit("newComment", {
         id: newComment.comment_id,
         user_id: newComment.user_id,
         comment: newComment.comment,
-        name,
+        name: username,
         created_at: new Date(),
       });
     }
